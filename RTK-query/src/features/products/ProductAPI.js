@@ -61,10 +61,11 @@ import { createApi, fetchBaseQuery } from "@reduxjs/toolkit/query/react"
               
             })
             , invalidatesTags: [{ type: 'Product', id: 'LIST' }]
+            
           })  
       
     }),
   })
 
-  export const { useGetAllProductsWithSearchQuery, useGetProductByIdQuery ,useAddProductMutation,useDeleteProductMutation,laz} = productAPI;
+  export const { useGetAllProductsWithSearchQuery, useGetProductByIdQuery ,useAddProductMutation,useDeleteProductMutation} = productAPI;
     export default productAPI;
