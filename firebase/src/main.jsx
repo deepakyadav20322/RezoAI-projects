@@ -11,7 +11,8 @@ import { ToastContainer } from 'react-toastify'
 
 
 createRoot(document.getElementById('root')).render(
-  <StrictMode>
+  // <StrictMode>
+  <>
     <Provider store={store}>
       <AuthProvider>
     <BrowserRouter>
@@ -20,5 +21,6 @@ createRoot(document.getElementById('root')).render(
     </AuthProvider> 
     </Provider>
     <ToastContainer /> 
-  </StrictMode>,
+    </>
+  // </StrictMode>,
 )

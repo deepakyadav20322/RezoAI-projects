@@ -8,6 +8,10 @@ import Navbar from './components/Navbar'
 import ProtectedLayout from './components/ProtectedLayout'
 import Dashboard from './pages/Dashboard'
 import AdminDashboard from './pages/admin/Dashboard'
+import ProductList from './pages/ProductList'
+import ProductDetailsPage from './pages/ProductDetailsPage'
+import CartPage from './pages/Cart'
+import Notfound from './pages/Notfound'
 
 function App() {
   
@@ -19,6 +23,10 @@ function App() {
         <Route path="/login" element={<Login />} />
         <Route path="/register" element={<Register />} />
         <Route path="/" element={<Home/>} />
+        <Route path="/product" element={<ProductList/>} />
+        <Route path="/product-detail/:id" element={<ProductDetailsPage/>} />
+        <Route path="/cart" element={<CartPage/>} />
+        <Route path="/not-found" element={<Notfound/>} />
 
 
         {/* User and Admin both protected */}
