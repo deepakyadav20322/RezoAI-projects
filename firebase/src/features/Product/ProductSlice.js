@@ -9,6 +9,7 @@ import {
   deleteDoc,
   query,
   where,
+  getDoc,
 } from "firebase/firestore";
 
 // Fetch all products stored in Firestore
@@ -51,10 +52,21 @@ export const updateProduct = createAsyncThunk(
   "products/updateProduct",
   async ({ productId, updatedData }, { rejectWithValue }) => {
     try {
+      // Debugging the values
+      console.log("productId:", productId);
+      console.log("updatedData:", updatedData);
+
+      // Check if updatedData is an object
+      if (typeof updatedData !== "object" || updatedData === null) {
+        throw new Error("Updated data must be an object.");
+      }
+
       const productRef = doc(db, "products", productId);
       await updateDoc(productRef, updatedData);
+      
       return { productId, updatedData };
     } catch (error) {
+      console.error("Error updating product:", error);
       return rejectWithValue(error.message);
     }
   }
@@ -104,10 +116,30 @@ export const decrementProduct = createAsyncThunk(
   }
 );
 
+ export const fetchProductById = createAsyncThunk(
+  "products/fetchProductById",
+  async (productId, { rejectWithValue }) => {
+    try {
+      const productRef = doc(db, "products", productId);
+      const productSnap = await getDoc(productRef);
+
+      if (productSnap.exists()) {
+        return { id: productSnap.id, ...productSnap.data() };
+      } else {
+        return rejectWithValue("Product not found");
+      }
+    } catch (error) {
+      return rejectWithValue(error.message);
+    }
+  }
+ )
+
+
 // Initial state
 const initialState = {
   products: [],
   // cart: [],
+  productDetails: null,
   loading: false,
   error: null,
 };
@@ -173,6 +205,18 @@ const productSlice = createSlice({
         state.products = state.products.filter((product) => product.id !== action.payload);
       })
       .addCase(deleteProduct.rejected, (state, action) => {
+        state.loading = false;
+        state.error = action.payload;
+      })
+      .addCase(fetchProductById.pending, (state) => {
+        state.loading = true;
+      })
+      .addCase(fetchProductById.fulfilled, (state, action) => {
+        state.loading = false;
+        state.productDetails = action.payload;
+      }
+      )
+      .addCase(fetchProductById.rejected, (state, action) => {
         state.loading = false;
         state.error = action.payload;
       })

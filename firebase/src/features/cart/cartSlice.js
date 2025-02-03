@@ -8,24 +8,8 @@ import {
   Timestamp,
   getDoc,
 } from "firebase/firestore";
-import { db } from "../../firebase"; // Firestore instance
+import { db } from "../../firebase"; 
 
-// **Fetch cart from Firestore**
-// export const fetchCart = createAsyncThunk("cart/fetch", async (userId) => {
-//     const cartRef = collection(db, "users", userId, "cart");
-//     const snapshot = await getDocs(cartRef);
-
-//     return snapshot.docs.map(doc => {
-//       const data = doc.data();
-
-//       // Check and convert Firestore Timestamps to Date
-//       if (data.addedAt instanceof Timestamp) {
-//         data.addedAt = data.addedAt.toDate(); // Convert Timestamp to Date object
-//       }
-
-//       return { id: doc.id,  };
-//     });
-//   });
 
 export const fetchCart = createAsyncThunk("cart/fetch", async (userId) => {
   const cartRef = collection(db, "users", userId, "cart");
@@ -89,7 +73,7 @@ export const updateQuantity = createAsyncThunk(
       return { id, quantity };
     } else {
       await deleteDoc(cartRef);
-      return { id, quantity: 0 }; // Remove from Redux
+      return { id, quantity: 0 }; // Remove from Redux store
     }
   }
 );
@@ -161,10 +145,7 @@ const cartSlice = createSlice({
       .addCase(updateQuantity.rejected, (state, action) => {
         console.log(action.error.message);
       })
-      // .addCase(removeFromCart.pending, (state) => {
-      //     state.status = "loading";
-      //   })
-
+     
       .addCase(removeFromCart.fulfilled, (state, action) => {
         state.cartItems = state.cartItems.filter(
           (item) => item.id !== action.payload

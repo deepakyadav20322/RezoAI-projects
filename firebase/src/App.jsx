@@ -12,6 +12,15 @@ import ProductList from './pages/ProductList'
 import ProductDetailsPage from './pages/ProductDetailsPage'
 import CartPage from './pages/Cart'
 import Notfound from './pages/Notfound'
+import CheckoutPage from './pages/CheckoutPage'
+import OrderConfirmation from './pages/OrderConfirmation'
+import SidebarLayout from './components/SidebarLayout'
+import UserOrderPage from './pages/UserOrderPage'
+import AdminSidebarLayout from './components/admin/AdminSidebarLayouts'
+import AllProducts from './components/admin/AllProducts'
+import AddProduct from './components/admin/AddProduct'
+import AllOrders from './components/admin/AllOrders'
+import EditProduct from './components/admin/EditProduct'
 
 function App() {
   
@@ -24,7 +33,7 @@ function App() {
         <Route path="/register" element={<Register />} />
         <Route path="/" element={<Home/>} />
         <Route path="/product" element={<ProductList/>} />
-        <Route path="/product-detail/:id" element={<ProductDetailsPage/>} />
+        <Route path="/product-detail/:productId" element={<ProductDetailsPage/>} />
         <Route path="/cart" element={<CartPage/>} />
         <Route path="/not-found" element={<Notfound/>} />
 
@@ -33,12 +42,26 @@ function App() {
         <Route
           element={<ProtectedLayout allowedRoles={["user", "admin"]} />}
         >
+          {/* This layout only see in user dashboard----------------- */}
+          <Route element={<SidebarLayout />}>
+       
           <Route path="/dashboard" element={<Dashboard />} />
+          <Route path="/dashboard/orders" element={<UserOrderPage />} />
+
+        </Route>
+        <Route path="/checkout" element={<CheckoutPage/>} />
+        <Route path="/order-confirmation/:orderId" element={<OrderConfirmation />} />
         </Route>
 
         {/* Admin protected */}
         <Route element={<ProtectedLayout allowedRoles={["admin"]} />}>
+          <Route  element={<AdminSidebarLayout />} >
           <Route path="/admin/dashboard" element={<AdminDashboard />} />
+          <Route path="/admin/dashboard/products" element={<AllProducts />} />
+          <Route path="/admin/dashboard/add-product" element={<AddProduct />} />
+          <Route path="/admin/dashboard/edit-product/:productId" element={<EditProduct />} />
+          <Route path="/admin/dashboard/all-orders" element={<AllOrders />} />
+          </Route>
         </Route>
 
         {/* <Route path="/add-product" element={<AddProduct />} /> */}

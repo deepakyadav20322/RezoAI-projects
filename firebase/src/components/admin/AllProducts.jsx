@@ -3,6 +3,7 @@ import { useDispatch, useSelector } from 'react-redux';
 import { deleteProduct, fetchAllProducts } from '../../features/Product/ProductSlice'; 
 import { FiEdit, FiTrash } from "react-icons/fi";
 import { toast } from 'react-toastify';
+import { Link } from 'react-router-dom';
 
 const AllProducts = () => {
   const dispatch = useDispatch();
@@ -57,9 +58,11 @@ const AllProducts = () => {
                 <td className="py-3 px-6 truncate max-w-xs">{product.description}</td>
                 <td className="py-3 px-6">{product.category}</td>
                 <td className="py-3 px-6">{product.brand}</td>
-                <td className="py-3 px-6 text-center">
-                  <button className="text-blue-500 hover:text-blue-700 mr-3">
+                <td className="py-3 px-6 text-center flex justify-center gap-3">
+                  <button>
+                  <Link to={`/admin/dashboard/edit-product/${product.id}`} className="text-blue-500 hover:text-blue-700">
                     <FiEdit size={18} />
+                  </Link>
                   </button>
                   <button className="text-red-500 hover:text-red-700" onClick={() => handleDelete(product.id)}>
                   <FiTrash size={18} />

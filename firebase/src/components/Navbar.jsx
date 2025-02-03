@@ -6,7 +6,7 @@ import { auth } from "../firebase";
 import { clearUser } from "../features/auth/AuthSlice";
 import { signOut } from "firebase/auth";
 import { fetchCart } from "../features/cart/cartSlice";
-import { toast } from "react-toastify";
+
 
 const Navbar = () => {
 
@@ -55,21 +55,21 @@ const Navbar = () => {
 
   const handleLogout = async () => {
     try {
-      // Get user ID before signing out
-      const user = JSON.parse(localStorage.getItem("user"));
-      if (!user) throw new Error("User not found in localStorage");
+      // // Get user ID before signing out
+      // const user = JSON.parse(localStorage.getItem("user"));
+      // if (!user) throw new Error("User not found in localStorage");
   
-      const userId = user.uid;
+      // const userId = user.uid;
   
-      // Fetch the cart from Firestore
-      const cartSnapshot = await dispatch(fetchCart(userId)).unwrap();
+      // // Fetch the cart from Firestore
+      // const cartSnapshot = await dispatch(fetchCart(userId)).unwrap();
   
-      if (cartSnapshot) {
-        // Store the cart items into local storage
-        console.log("Cart Snapshot:", cartSnapshot.product);
-        localStorage.setItem("cart", JSON.stringify(cartSnapshot));
+      // if (cartSnapshot) {
+      //   // Store the cart items into local storage
+      //   console.log("Cart Snapshot:", cartSnapshot.product);
+      //   localStorage.setItem("cart", JSON.stringify(cartSnapshot));
       
-      }
+      // }
   
       // Sign out from Firebase Auth
       await signOut(auth);
@@ -77,6 +77,7 @@ const Navbar = () => {
       // Clear user-related data
       clearUser();
       localStorage.removeItem("user");
+      localStorage.removeItem("cart");
   
       // Redirect to login page
       window.location.href = "/login";
@@ -98,22 +99,30 @@ const Navbar = () => {
           <Link to="/" className="hover:text-gray-400">
             Home
           </Link>
+          {user &&(
+            <>
           <Link to="/dashboard" className="hover:text-gray-400">
-           Dashboard
+           {'Dashboard'}
           </Link>
+            {user.role === "admin" && (
+          <Link to="/admin/dashboard" className="hover:text-gray-400">
+           Admin-Dashboard
+          </Link>
+            )}
+          </>)
+          }
           <Link to="/product" className="hover:text-gray-400">
            products
           </Link>
           <Link to="/cart" className="hover:text-gray-400">
             Cart
           </Link>
-          <Link to="/admin/dashboard" className="hover:text-gray-400">
-           Admin-Dashboard
-          </Link>
+         
+         
         </div>
 
         {/* Right: Profile/Login */}
-        <div className="relative">
+        <div className="relative min-h-[40px]">
   {loading ? (
     <div className="flex items-center space-x-4">
       {/* Loading Skeleton */}

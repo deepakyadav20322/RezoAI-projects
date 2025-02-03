@@ -107,11 +107,11 @@ export default function ProductCard({
           <div>
             {discountPercentage ? (
               <div className="flex items-center">
-                <span className="text-lg font-bold text-green-600">${discountedPrice}</span>
-                <span className="ml-2 text-sm text-gray-500 line-through">${price}</span>
+                <span className="text-lg font-bold text-green-600">₹{discountedPrice}</span>
+                <span className="ml-2 text-sm text-gray-500 line-through">₹{price}</span>
               </div>
             ) : (
-              <span className="text-lg font-bold">${price}</span>
+              <span className="text-lg font-bold">₹{price}</span>
             )}
           </div>
           <div className="px-2 py-1 text-xs font-semibold text-white bg-gray-600 rounded">{category}</div>

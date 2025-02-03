@@ -23,20 +23,26 @@ const ProductList = () => {
   }, [dispatch]);
 
   return (
-    <div className="flex flex-col justify-center items-center max-w-[90rem] w-full mx-auto gap-10 my-10">
+    <div className="flex flex-col justify-center items-center max-w-[90rem] w-full mx-auto gap-10 my-10 relative">
       <p className='text-xl font-semibold py-2'>Your All Products 🎉</p>
     <div className="flex flex-row justify-center ">
       {/* <div className="w-1/6 sticky top-28 self-start">
         <Sidebar categories={categories} onFilterChange={onFilterChange} />
       </div> */}
       <div className="w-full mx-auto  ">
-        {loading ?( <div className=" text-center py-10 animate-spin h-[20rem] w-full flex justify-center items-center"> <div className="w-8 h-8 border-t-3 border-blue-500 rounded-full"></div> </div>):
-        (
+        {loading && ( 
+          
+          <div className="fixed top-0 left-0 w-full h-full bg-black/1 backdrop-blur-sm flex justify-center items-center z-50">
+          <div className="w-10 h-10 border-4 border-t-transparent border-white rounded-full animate-spin"></div>
+        </div>
+
+        )}
+        
         <div className="flex flex-wrap  gap-4">
           {products.map((product) => (
             <ProductCard key={product.id} {...product} />
           ))}
-        </div>)}     
+        </div>
       </div>
     </div>
     </div> )

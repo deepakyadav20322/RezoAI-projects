@@ -91,7 +91,11 @@ const Login = () => {
           }
   
           // Navigate to the login page after successful cart upload
-          navigate("/"); 
+          if( user.role !== "admin") {
+          navigate("/dashboard"); 
+          }else{
+            navigate("/admin/dashboard");
+          }
         } else {
           console.error("User UID is not available.");
         }

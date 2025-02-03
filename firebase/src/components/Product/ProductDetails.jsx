@@ -1,31 +1,86 @@
-import React from "react";
-import { useEffect, useState } from "react";
+import React, { useEffect, useState } from "react";
 import { FaStar } from "react-icons/fa";
+import { fetchProductById } from "../../features/Product/ProductSlice";
+import { useDispatch } from "react-redux";
+import { useParams } from "react-router-dom";
+import { useSelector } from "react-redux";  
+import { toast } from "react-toastify";
+import { Link } from "react-router-dom";
+import { addToCart, fetchCart } from "../../features/cart/cartSlice";
 
-const ProductDetails = ({ productId }) => {
+const ProductDetails = ({}) => {
   const [product, setProduct] = useState(null);
+  const dispatch = useDispatch();
+  const cartItems = useSelector((state) => state.cart.cartItems);
+  const { productId: paramProductId } = useParams(); // Get productId from URL
+  const isLoggedIn = useSelector((state) => state.auth.user);
+  const productId =  paramProductId; 
+  const [localCart, setLocalCart] = useState(JSON.parse(localStorage.getItem("cart")) || []);
+   const IslocalCart = localCart?.some((item) => item.id === product?.id);
 
+  const isInCart = cartItems?.some((item) => item.id === product?.id);
   useEffect(() => {
-    async function fetchProduct() {
-      // Mock API call; replace with actual fetch logic
-      const fetchedProduct = {
-        id: "0kqCfWEA31er7TcjGP9A",
-        title: "Frontend Developer Developer 6",
-        brand: "Appless",
-        category: "Sports",
-        description: "Hello man",
-        price: "9",
-        discountPercentage: "8",
-        rating: "2",
-        stock: "12",
-        thumbnail: ""
-      };
-      setProduct(fetchedProduct);
-    }
+    if (!productId) return;
+
+    const fetchProduct = async () => {
+      try {
+        const productData = await dispatch(fetchProductById(productId)).unwrap();
+        setProduct(productData);
+      } catch (error) {
+        console.error("Error fetching product:", error);
+      }
+    };
+
     fetchProduct();
-  }, [productId]);
+  }, [productId, dispatch]);
 
   if (!product) return <div className="text-center py-10">Loading...</div>;
+
+
+
+    const handleAddToCart = () => {
+    
+        if (!isLoggedIn) {
+          // store in local storage
+          let cart = JSON.parse(localStorage.getItem("cart")) || [];
+          // cart.push();
+        cart.push({
+          productId: product.id,
+          id: productId,
+          product: {
+            id: product.id,
+            title: product.title,
+            description: product.description,
+            price: product.price,
+            discountPercentage: product.discountPercentage,
+            rating: product.rating,
+            stock: product.stock,
+            brand: product.brand,
+            category: product.category,
+            thumbnail: product.thumbnail,
+          },
+          quantity: 1
+        });
+        localStorage.setItem("cart", JSON.stringify(cart));
+        setLocalCart(cart);
+        toast.success("Item added to cart");
+        }else{
+    
+        // let productId = id;
+        dispatch(addToCart({ userId: isLoggedIn.uid, productId, quantity: 1 }))
+          .unwrap() 
+          .then(() => {
+            toast.success("Item added to cart");
+    
+            dispatch(fetchCart(isLoggedIn.uid));
+          })
+          .catch((error) => {
+            // Show error if rejected
+            toast.error(`Error adding item to cart: ${error.message}`);
+          });
+        }
+      };
+
 
   const discountedPrice = (
     parseFloat(product.price) * (1 - parseFloat(product.discountPercentage) / 100)
@@ -71,9 +126,18 @@ const ProductDetails = ({ productId }) => {
           )}
           <p className="text-gray-700">{product.description}</p>
           <p className="text-sm text-gray-500">In stock: {product.stock}</p>
-          <button className="w-full bg-blue-600 text-white py-2 rounded-lg hover:bg-blue-700 transition">
-            Add to Cart
-          </button>
+          {isInCart || IslocalCart ? (
+          <Link to="/cart?get=true" className="w-1/2 flex items-center justify-center px-4 py-2 bg-green-500 text-white font-semibold rounded-lg hover:bg-green-600">
+            Go to Cart
+          </Link>
+        ) : (
+          <button
+            onClick={handleAddToCart}
+            className="w-1/2 flex items-center justify-center px-4 py-2 bg-blue-500 text-white font-semibold rounded-lg hover:bg-blue-600"
+            disabled={product.stock === 0} // Disable button if out of stock (stock === 0)
+             // Disable button if item is already in cart  
+          >Add to Cart</button>)}
+
         </div>
       </div>
     </div>
