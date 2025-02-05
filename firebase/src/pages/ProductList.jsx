@@ -1,126 +1,85 @@
-import React, { useEffect } from 'react'
-import ProductCard from '../components/Product/ProductCard';
-import Sidebar from '../components/Product/ProductSidebar';
+import React, { useEffect, useState } from "react";
+import ProductCard from "../components/Product/ProductCard";
+import ProductSidebar from "../components/Product/ProductSidebar";
+import { useDispatch, useSelector } from "react-redux";
 
-import { useDispatch, useSelector } from 'react-redux';
-import { use } from 'react';
-import { fetchAllProducts } from '../features/Product/ProductSlice';
+import { fetchAllProducts } from "../features/Product/ProductSlice";
 const ProductList = () => {
+  const [filters, setFilters] = useState({
+    priceRange: [0, 100000],
+    categories: [],
+    priceOrder: "asc",
+  });
 
-  const categories = ["Electronics", "Clothing", "Home", "Sports", "Books"]
+  // This function will be called when filters are updated in the Sidebar
+  const handleFilterChange = (newFilters) => {
+    setFilters((prevFilters) => ({ ...prevFilters, ...newFilters }));
+  };
 
-  const onFilterChange = (filters) => {
-    console.log("Filters Applied:", filters)
- 
-  }
-        const dispatch = useDispatch();
-  const {products, loading , error} = useSelector((state) => state.products);
-  console.log(products);
-
+  const dispatch = useDispatch();
+  const { products, loading, error } = useSelector((state) => state.products);
+  const [filteredProducts, setFilteredProducts] = useState([]);
 
   useEffect(() => {
     dispatch(fetchAllProducts());
   }, [dispatch]);
 
-  return (
-    <div className="flex flex-col justify-center items-center max-w-[90rem] w-full mx-auto gap-10 my-10 relative">
-      <p className='text-xl font-semibold py-2'>Your All Products 🎉</p>
-    <div className="flex flex-row justify-center ">
-      {/* <div className="w-1/6 sticky top-28 self-start">
-        <Sidebar categories={categories} onFilterChange={onFilterChange} />
-      </div> */}
-      <div className="w-full mx-auto  ">
-        {loading && ( 
-          
-          <div className="fixed top-0 left-0 w-full h-full bg-black/1 backdrop-blur-sm flex justify-center items-center z-50">
-          <div className="w-10 h-10 border-4 border-t-transparent border-white rounded-full animate-spin"></div>
-        </div>
+  useEffect(() => {
+    let filtered = products;
 
+    // Filter by Price Range
+    filtered = filtered.filter((product) => {
+      const price = parseFloat(product.price); // Ensures price is treated as a number
+      const priceAfterDiscount =
+        price - (price * product.discountPercentage) / 100;
+      return (
+        priceAfterDiscount >= filters.priceRange[0] &&
+        priceAfterDiscount <= filters.priceRange[1]
+      );
+    });
+
+    // Filter by Categories (if categories are selected)
+    if (filters.categories.length > 0) {
+      filtered = filtered.filter((product) =>
+        filters.categories.includes(product.category)
+      );
+    }
+
+    // Sort by Price
+    filtered.sort((a, b) =>
+      filters.priceOrder === "asc" ? a.price - b.price : b.price - a.price
+    );
+
+    setFilteredProducts(filtered);
+  }, [filters, products]);
+
+  return (
+    <div className="flex justify-start items-start max-w-dvw w-full mx-auto gap-10 my-10 relative px-4">
+      <div className=" w-1/6 sticky top-28 z-20">
+        <ProductSidebar filters={filters} onFilterChange={handleFilterChange} />
+      </div>
+      <div className="w-full mx-auto">
+        {loading && (
+          <div className="fixed top-0 left-0 w-full h-full bg-black/1 backdrop-blur-sm flex justify-center items-center z-50">
+            <div className="w-10 h-10 border-4 border-t-transparent border-white rounded-full animate-spin"></div>
+          </div>
         )}
-        
-        <div className="flex flex-wrap  gap-4">
-          {products.map((product) => (
-            <ProductCard key={product.id} {...product} />
-          ))}
+        <p className="text-xl font-semibold py-2 text-center">
+          Your All Products 🎉
+        </p>
+        <div className="w-5/6  grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4">
+          {filteredProducts.length === 0 ? (
+            <p className="text-center">No products available</p>
+          ) : (
+            filteredProducts.map((product) => (
+              <ProductCard key={product.id} {...product} />
+            ))
+          )}
         </div>
       </div>
+      {/* </div> */}
     </div>
-    </div> )
-}
+  );
+};
 
-export default ProductList
-
-
-
-// export const products = [
-//   {
-//     id: "1",
-//     name: "Smartphone X",
-//     description: "Latest model with advanced camera and long-lasting battery.",
-//     price: 799.99,
-//     discountPercentage: 10,
-//     rating: 4.5,
-//     stock: 50,
-//     brand: "TechGiant",
-//     category: "Electronics",
-//     thumbnail: "/placeholder.svg?height=300&width=300",
-//   },
-//   {
-//     id: "2",
-//     name: "Laptop Pro",
-//     description: "Powerful laptop for professionals and creatives.",
-//     price: 1299.99,
-//     rating: 4.8,
-//     stock: 30,
-//     brand: "CompuTech",
-//     category: "Electronics",
-//     thumbnail: "/placeholder.svg?height=300&width=300",
-//   },
-//   {
-//     id: "3",
-//     name: "Wireless Earbuds",
-//     description: "High-quality sound with noise cancellation.",
-//     price: 149.99,
-//     discountPercentage: 15,
-//     rating: 4.3,
-//     stock: 100,
-//     brand: "AudioPro",
-//     category: "Audio",
-//     thumbnail: "/placeholder.svg?height=300&width=300",
-//   },
-//   {
-//     id: "4",
-//     name: "Smart Watch",
-//     description: "Track your fitness and stay connected on the go.",
-//     price: 249.99,
-//     rating: 4.6,
-//     stock: 75,
-//     brand: "FitTech",
-//     category: "Wearables",
-//     thumbnail: "/placeholder.svg?height=300&width=300",
-//   },
-//   {
-//     id: "5",
-//     name: "4K TV",
-//     description: "Immersive viewing experience with vibrant colors.",
-//     price: 799.99,
-//     discountPercentage: 5,
-//     rating: 4.7,
-//     stock: 20,
-//     brand: "VisionMax",
-//     category: "Electronics",
-//     thumbnail: "/placeholder.svg?height=300&width=300",
-//   },
-//   {
-//     id: "6",
-//     name: "Gaming Console",
-//     description: "Next-gen gaming with stunning graphics and fast load times.",
-//     price: 499.99,
-//     rating: 4.9,
-//     stock: 0,
-//     brand: "GameMaster",
-//     category: "Gaming",
-//     thumbnail: "/placeholder.svg?height=300&width=300",
-//   },
-// ]
-
+export default ProductList;

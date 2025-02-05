@@ -1,0 +1,1 @@
+export const Category  =[  "Electronics",    "Clothing",   "Toys",  "Food",  "Books",  "Sports",  "Health"] 

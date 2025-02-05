@@ -1,129 +1,125 @@
-import React, { useState } from "react"
+import React, { useState } from "react";
+import {Category} from '../../Constant/Category'
 
-const ProductSidebar = ({ categories, onFilterChange }) => {
-  const [minPrice, setMinPrice] = useState(0)
-  const [maxPrice, setMaxPrice] = useState(100000)
-  const [selectedCategory, setSelectedCategory] = useState("")
-  const [sortOrder, setSortOrder] = useState("")
+const ProductSidebar = ({ filters, onFilterChange }) => {
+  const [minPrice, setMinPrice] = useState(filters.priceRange[0] || "");
+  const [maxPrice, setMaxPrice] = useState(filters.priceRange[1] || "");
+  const [selectedCategories, setSelectedCategories] = useState(filters.categories || []);
+  const [priceOrder, setPriceOrder] = useState(filters.priceOrder || "asc");
 
-  const handlePriceChange = () => {
-    onFilterChange({
-      minPrice,
-      maxPrice,
-      selectedCategory,
-      sortOrder,
-    })
-  }
+  const handlePriceChange = (index, value) => {
+    const parsedValue = value === "" ? "" : parseInt(value, 10);
+    if (value === "" || !isNaN(parsedValue)  && parsedValue <= 100000) {
+      index === 0 ? setMinPrice(value) : setMaxPrice(value);
+    }
+  };
 
   const handleCategoryChange = (category) => {
-    setSelectedCategory(category)
-    onFilterChange({
-      minPrice,
-      maxPrice,
-      selectedCategory: category,
-      sortOrder,
-    })
-  }
+    const updatedCategories = selectedCategories.includes(category)
+      ? selectedCategories.filter((c) => c !== category)
+      : [...selectedCategories, category];
+    setSelectedCategories(updatedCategories);
+  };
 
-  const handleSortChange = (e) => {
-    setSortOrder(e.target.value)
+  const handlePriceOrderChange = (order) => {
+    setPriceOrder(order);
+  };
+
+  const applyFilters = () => {
     onFilterChange({
-      minPrice,
-      maxPrice,
-      selectedCategory,
-      sortOrder: e.target.value,
-    })
-  }
+      priceRange: [minPrice === "" ? 0 : parseInt(minPrice, 10), maxPrice === "" ? 100000 : parseInt(maxPrice, 10)],
+      categories: selectedCategories,
+      priceOrder,
+    });
+    console.log("Filters Applied:", { 
+      priceRange: [minPrice === "" ? 0 : parseInt(minPrice, 10), maxPrice === "" ? 100000 : parseInt(maxPrice, 10)],
+      categories: selectedCategories,
+      priceOrder,
+    });
+  };
+
+  const clearFilters = () => {
+    setMinPrice("");
+    setMaxPrice("");
+    setSelectedCategories([]);
+    setPriceOrder("asc");
+    onFilterChange({ priceRange: [0, 100000], categories: [], priceOrder: "asc" });
+  };
 
   return (
-    <div className="w-64 bg-white shadow-lg p-4 rounded-lg">
-      {/* Price Range Filter */}
-      <div className="mb-4">
-        <h3 className="text-lg font-semibold mb-2">Price Range</h3>
+    <aside className="w-64 bg-white shadow-lg p-4 rounded-lg">
+      <div className="flex justify-between items-center mb-4">
+        <h3 className="text-lg font-semibold">PRICE</h3>
+        <button onClick={clearFilters} className="text-blue-500 text-sm font-medium">CLEAR</button>
+      </div>
+
+      <div className="flex items-center space-x-2 mb-4">
         <input
-          type="range"
-          min="0"
-          max="100000"
-          step="100"
+          type="number"
           value={minPrice}
-          onChange={(e) => setMinPrice(Number(e.target.value))}
-          className="w-full"
+          onChange={(e) => handlePriceChange(0, e.target.value)}
+          className="w-20 px-2 py-1 border rounded"
+          min="0"
+          placeholder="Min"
         />
-        <div className="flex justify-between text-sm text-gray-600">
-          <span>0</span>
-          <span>{minPrice}</span>
-          <span>100000</span>
-        </div>
+        <span>to</span>
         <input
-          type="range"
-          min={minPrice}
-          max="100000"
-          step="100"
+          type="number"
           value={maxPrice}
-          onChange={(e) => setMaxPrice(Number(e.target.value))}
-          className="w-full mt-4"
+          onChange={(e) => handlePriceChange(1, e.target.value)}
+          className="w-20 px-2 py-1 border rounded"
+          min="0"
+          placeholder="Max"
         />
-        <div className="flex justify-between text-sm text-gray-600">
-          <span>{minPrice}</span>
-          <span>{maxPrice}</span>
-          <span>100000</span>
+      </div>
+
+      <div className="mb-4">
+        <h3 className="font-medium mb-2">Categories</h3>
+        {Category.map((category) => (
+          <label key={category} className="flex items-center space-x-2 mb-1">
+            <input
+              type="checkbox"
+              checked={selectedCategories.includes(category)}
+              onChange={() => handleCategoryChange(category)}
+              className="form-checkbox h-4 w-4 text-blue-600"
+            />
+            <span>{category}</span>
+          </label>
+        ))}
+      </div>
+
+      <div>
+        <h3 className="font-medium mb-2">Price Order</h3>
+        <div className="flex items-center space-x-4">
+          <label className="flex items-center space-x-2">
+            <input
+              type="radio"
+              checked={priceOrder === "asc"}
+              onChange={() => handlePriceOrderChange("asc")}
+              className="form-radio h-4 w-4 text-blue-600"
+            />
+            <span>Low to High</span>
+          </label>
+          <label className="flex items-center space-x-2">
+            <input
+              type="radio"
+              checked={priceOrder === "desc"}
+              onChange={() => handlePriceOrderChange("desc")}
+              className="form-radio h-4 w-4 text-blue-600"
+            />
+            <span>High to Low</span>
+          </label>
         </div>
       </div>
 
-      {/* Category Filter */}
-      <div className="mb-4">
-        <h3 className="text-lg font-semibold mb-2">Categories</h3>
-        <div className="space-y-2">
-          {categories.map((category, index) => (
-            <div key={index} className="flex items-center">
-              <input
-                type="radio"
-                id={category}
-                name="category"
-                value={category}
-                checked={selectedCategory === category}
-                onChange={() => handleCategoryChange(category)}
-                className="mr-2"
-              />
-              <label htmlFor={category} className="text-sm text-gray-700">
-                {category}
-              </label>
-            </div>
-          ))}
-        </div>
-      </div>
+      <button
+        onClick={applyFilters}
+        className="mt-4 w-full bg-blue-500 text-white py-2 rounded hover:bg-blue-600"
+      >
+        Apply Filters
+      </button>
+    </aside>
+  );
+};
 
-      {/* Sort By */}
-      <div className="mb-4">
-        <h3 className="text-lg font-semibold mb-2">Sort By</h3>
-        <select
-          value={sortOrder}
-          onChange={handleSortChange}
-          className="w-full p-2 border border-gray-300 rounded"
-        >
-          <option value="">Select Sort Order</option>
-          <option value="asc">Price: Low to High</option>
-          <option value="desc">Price: High to Low</option>
-        </select>
-      </div>
-
-      {/* Add Additional Filters */}
-      <div className="mb-4">
-        <h3 className="text-lg font-semibold mb-2">Additional Filters</h3>
-        <p className="text-sm text-gray-500">You can add more filters here (e.g., brand, rating, etc.).</p>
-      </div>
-
-      {/* Apply Filters Button */}
-      <div className="mt-4">
-        <button
-          onClick={handlePriceChange}
-          className="w-full py-2 px-4 bg-blue-500 text-white font-semibold rounded hover:bg-blue-600"
-        >
-          Apply Filters
-        </button>
-      </div>
-    </div>
-  )
-}
-
-export default ProductSidebar
+export default ProductSidebar;

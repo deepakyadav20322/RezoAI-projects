@@ -2,7 +2,7 @@
 import { useState } from "react"
 import { addProduct } from "../../features/Product/ProductSlice"
 import { useDispatch, useSelector } from "react-redux"
-
+import { Category } from "../../Constant/Category"
 export default function AddProductPage() {
   const [product, setProduct] = useState({
     title: "",
@@ -16,6 +16,7 @@ export default function AddProductPage() {
     thumbnail: "",
   })
 
+  
 
 
   const fakeProducts = {
@@ -132,11 +133,12 @@ export default function AddProductPage() {
               className="w-full p-2 border rounded bg-white"
             >
               <option value="">Select Category</option>
-              <option value="Electronics">Electronics</option>
-              <option value="Clothing">Clothing</option>
-              <option value="Home">Home</option>
-              <option value="Sports">Sports</option>
-              <option value="Books">Books</option>
+              {
+              Category.map((category) => (
+              <option key={category} value={category}>
+                {category}
+              </option>
+            ))}
             </select>
           </div>
 
