@@ -7,6 +7,7 @@ import { useSelector } from "react-redux";
 import { toast } from "react-toastify";
 import { Link } from "react-router-dom";
 import { addToCart, fetchCart } from "../../features/cart/cartSlice";
+import ProductDetailSkeleton from "./LoaderProductDetails";
 
 const ProductDetails = ({}) => {
   const [product, setProduct] = useState(null);
@@ -38,7 +39,7 @@ const ProductDetails = ({}) => {
     fetchProduct();
   }, [productId, dispatch]);
 
-  if (!product) return <div className="text-center py-10">Loading...</div>;
+
 
   const handleAddToCart = () => {
     if (!isLoggedIn) {
@@ -82,16 +83,19 @@ const ProductDetails = ({}) => {
   };
 
   const discountedPrice = (
-    parseFloat(product.price) *
-    (1 - parseFloat(product.discountPercentage) / 100)
+    parseFloat(product?.price) *
+    (1 - parseFloat(product?.discountPercentage) / 100)
   ).toFixed(2);
 
+
+
+  if (!product) return <ProductDetailSkeleton />;
   return (
     <div className="container mx-auto px-4 py-8">
       <div className="grid md:grid-cols-2 gap-8">
         <div className="space-y-4">
           <div className="aspect-square relative overflow-hidden rounded-lg bg-gray-100 flex items-center justify-center">
-            {product.thumbnail ? (
+            {product?.thumbnail ? (
               <img
                 src={product.thumbnail}
                 alt={product.title}
@@ -131,7 +135,7 @@ const ProductDetails = ({}) => {
             ${discountedPrice}
             {product.discountPercentage !== "0" && (
               <span className="ml-2 text-sm text-gray-500 line-through">
-                ${product.price}
+                ${product?.price}
               </span>
             )}
           </div>
@@ -139,7 +143,14 @@ const ProductDetails = ({}) => {
             <p className="text-green-600">Save {product.discountPercentage}%</p>
           )}
           <p className="text-gray-700">{product.description}</p>
-          <p className="text-sm text-gray-500">In stock: {product.stock}</p>
+          <div className="flex items-center gap-2">
+           {product.stock>0 && <p className="text-sm text-gray-500">In stock: {product.stock}</p>}
+            {product.stock == 0 && (
+              <span className="px-2 py-1 bg-red-100 text-red-600 text-sm rounded-full">
+                Out of Stock
+              </span>
+            )}
+          </div>
           {isInCart || IslocalCart ? (
             <Link
               to="/cart?get=true"
@@ -150,9 +161,8 @@ const ProductDetails = ({}) => {
           ) : (
             <button
               onClick={handleAddToCart}
-              className="w-1/2 flex items-center justify-center px-4 py-2 bg-blue-500 text-white font-semibold rounded-lg hover:bg-blue-600"
-              disabled={product.stock === 0} // Disable button if out of stock (stock === 0)
-              // Disable button if item is already in cart
+              className="w-1/2 flex items-center justify-center px-4 py-2 bg-blue-500 text-white font-semibold rounded-lg hover:bg-blue-600 disabled:opacity-50 disabled:cursor-not-allowed"
+              disabled={product.stock === 0 || product.stock < 1}
             >
               Add to Cart
             </button>

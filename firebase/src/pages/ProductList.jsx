@@ -54,7 +54,7 @@ const ProductList = () => {
   }, [filters, products]);
 
   return (
-    <div className="flex justify-start items-start max-w-dvw w-full mx-auto gap-10 my-10 relative px-4">
+    <div className="flex justify-start items-start max-w-dvw w-full mx-auto gap-10 my-10 relative px-4 ">
       <div className=" w-1/6 sticky top-28 z-20">
         <ProductSidebar filters={filters} onFilterChange={handleFilterChange} />
       </div>

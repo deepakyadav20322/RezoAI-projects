@@ -476,7 +476,6 @@ const CheckoutPage = () => {
 
 
 
-  // Handle form field changes
   const handleChange = (e) => {
     const { name, value } = e.target;
     setFormData({ ...formData, [name]: value });
@@ -493,6 +492,7 @@ const CheckoutPage = () => {
     });
     return { totalPrice: total.toFixed(2) };
   };
+  
   const { totalPrice } = calculateTotal();
 
   const handleSubmit = async (e) => {
@@ -726,12 +726,7 @@ const CheckoutPage = () => {
                   <span>Total:</span> <span>₹{Number(totalPrice) + Number(shippingCost)}</span>
                 </p>
               </div>
-              {/* <button
-                type="submit"
-                className="w-full mt-6 bg-gradient-to-r from-green-500 to-green-600 text-white py-4 px-6 rounded-lg font-semibold text-lg hover:from-green-600 hover:to-green-700 transition duration-300 ease-in-out focus:outline-none focus:ring-2 focus:ring-green-500 focus:ring-opacity-50 shadow-lg transform hover:-translate-y-0.5"
-              >
-                Place Order
-              </button> */}
+          
             </div>
 
             <div className="mt-8 space-y-4">

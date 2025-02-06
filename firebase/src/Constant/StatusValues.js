@@ -1,0 +1,1 @@
+export const OrderStatusValues = [   "processing", "shipped","delivered","cancelled"]  

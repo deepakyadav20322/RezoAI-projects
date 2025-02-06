@@ -25,7 +25,7 @@ const Home = () => {
       <div className='flex flex-col justify-center items-center bg-slate-200 rounde-2xl h-[80%] my-5'>
         <div className='h-28 pb-[-1rem]'> 🧑 </div>
         Welcome to the Home Page
-        <p className='font-semibold text-3xl py-6'>Firebase + ReduxToolkit + User + Products</p>
+        <p className='font-semibold text-3xl py-6'>Firebase + ReduxToolkit + User + Products + Admin</p>
         <code className='text-xl font-semibold text-green-500 '>{JSON.stringify(user,null,2)}{" "}  <span className='font-medium'>{( !loading && !user? "No any user login":"")}</span></code>
       
       </div>

@@ -38,8 +38,9 @@ const AllProducts = () => {
   }
 
   return (
-    <div className="max-w-6xl mx-auto my-10 bg-white shadow-lg rounded-lg overflow-auto w-full">
-      <div className="overflow-x-auto">
+<div className="max-w-6xl mx-auto my-10 bg-white shadow-lg rounded-lg overflow-auto w-full lg:min-w-6xl min-h-[400px]">
+
+<div className="overflow-x-auto">
         <table className="min-w-full border-collapse">
           <thead>
             <tr className="bg-gray-900 text-white text-left uppercase text-sm">
