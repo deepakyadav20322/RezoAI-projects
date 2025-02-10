@@ -1,12 +1,13 @@
-import React, { useState } from "react";
+import React from "react";
 import ProductDetails from "../components/Product/ProductDetails";
 
 const ProductDetailsPage = () => {
-  const [product, setProduct] = useState(null);
+
 
   return (
     <div>
-      <ProductDetails product={product} />
+      <ProductDetails/>
+         {/* here you can add more component like comment ,reviews data and more */}
     </div>
   );
 };

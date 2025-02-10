@@ -1,22 +1,24 @@
 import React, { useState } from "react";
-import {Category} from '../../Constant/Category'
+import { Category } from "../../Constant/Category";
 
 const ProductSidebar = ({ filters, onFilterChange }) => {
   const [minPrice, setMinPrice] = useState(filters.priceRange[0] || "");
   const [maxPrice, setMaxPrice] = useState(filters.priceRange[1] || "");
-  const [selectedCategories, setSelectedCategories] = useState(filters.categories || []);
+  const [selectedCategories, setSelectedCategories] = useState(
+    filters.categories || []
+  );
   const [priceOrder, setPriceOrder] = useState(filters.priceOrder || "asc");
 
   const handlePriceChange = (index, value) => {
     const parsedValue = value === "" ? "" : parseInt(value, 10);
-    if (value === "" || !isNaN(parsedValue)  && parsedValue <= 100000) {
+    if (value === "" || (!isNaN(parsedValue) && parsedValue <= 100000)) {
       index === 0 ? setMinPrice(value) : setMaxPrice(value);
     }
   };
 
   const handleCategoryChange = (category) => {
     const updatedCategories = selectedCategories.includes(category)
-      ? selectedCategories.filter((c) => c !== category)
+      ? selectedCategories.filter((cat) => cat !== category) 
       : [...selectedCategories, category];
     setSelectedCategories(updatedCategories);
   };
@@ -27,12 +29,18 @@ const ProductSidebar = ({ filters, onFilterChange }) => {
 
   const applyFilters = () => {
     onFilterChange({
-      priceRange: [minPrice === "" ? 0 : parseInt(minPrice, 10), maxPrice === "" ? 100000 : parseInt(maxPrice, 10)],
+      priceRange: [
+        minPrice === "" ? 0 : parseInt(minPrice, 10),
+        maxPrice === "" ? 100000 : parseInt(maxPrice, 10),
+      ],
       categories: selectedCategories,
       priceOrder,
     });
-    console.log("Filters Applied:", { 
-      priceRange: [minPrice === "" ? 0 : parseInt(minPrice, 10), maxPrice === "" ? 100000 : parseInt(maxPrice, 10)],
+    console.log("Filters Applied:", {
+      priceRange: [
+        minPrice === "" ? 0 : parseInt(minPrice, 10),
+        maxPrice === "" ? 100000 : parseInt(maxPrice, 10),
+      ],
       categories: selectedCategories,
       priceOrder,
     });
@@ -40,17 +48,26 @@ const ProductSidebar = ({ filters, onFilterChange }) => {
 
   const clearFilters = () => {
     setMinPrice("");
-    setMaxPrice("");
+    setMaxPrice(100000);
     setSelectedCategories([]);
     setPriceOrder("asc");
-    onFilterChange({ priceRange: [0, 100000], categories: [], priceOrder: "asc" });
+    onFilterChange({
+      priceRange: [0, 100000],
+      categories: [],
+      priceOrder: "asc",
+    });
   };
 
   return (
     <aside className="w-64 bg-white shadow-lg p-4 rounded-lg">
       <div className="flex justify-between items-center mb-4">
         <h3 className="text-lg font-semibold">PRICE</h3>
-        <button onClick={clearFilters} className="text-blue-500 text-sm font-medium">CLEAR</button>
+        <button
+          onClick={clearFilters}
+          className="text-blue-500 text-sm font-medium"
+        >
+          CLEAR
+        </button>
       </div>
 
       <div className="flex items-center space-x-2 mb-4">

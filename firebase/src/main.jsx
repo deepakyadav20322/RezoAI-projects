@@ -8,6 +8,7 @@ import { Provider } from 'react-redux'
 import store from './app/store'
 import AuthProvider  from './hooks/AuthProvider'
 import { ToastContainer } from 'react-toastify'
+import NotificationPermission from './components/NotificationPermission.jsx'
 
 
 createRoot(document.getElementById('root')).render(
@@ -16,6 +17,7 @@ createRoot(document.getElementById('root')).render(
     <Provider store={store}>
       <AuthProvider>
     <BrowserRouter>
+    <NotificationPermission/>
     <App />
     </BrowserRouter>
     </AuthProvider> 
@@ -24,3 +26,15 @@ createRoot(document.getElementById('root')).render(
     </>
   // </StrictMode>,
 )
+
+
+if ("serviceWorker" in navigator) {
+  navigator.serviceWorker
+    .register("/firebase-messaging-sw.js")
+    .then((registration) => {
+      console.log("Service Worker Registered:", registration);
+    })
+    .catch((error) => {
+      console.log("Service Worker Registration Failed:", error);
+    });
+}

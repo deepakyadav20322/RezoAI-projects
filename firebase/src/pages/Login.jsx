@@ -9,14 +9,14 @@ const Login = () => {
   const [password, setPassword] = useState("");
   const dispatch = useDispatch();
   const navigate = useNavigate();
-  const { loading,user, error } = useSelector((state) => state.auth);
+  const { loading, user, error } = useSelector((state) => state.auth);
 
   // const handleSubmit = async(e) => {
   //   e.preventDefault();
   //   dispatch(loginUser({ email, password })).then((result) => {
   //   if (result.meta.requestStatus === "fulfilled") {
-    
-  //     const user = result.payload; 
+
+  //     const user = result.payload;
 
   //     if (user?.uid) {
   //     // yaha par local cart ko upload kar rahe hai after login
@@ -55,18 +55,18 @@ const Login = () => {
 
   const handleSubmit = async (e) => {
     e.preventDefault();
-  
+
     try {
       const result = await dispatch(loginUser({ email, password })).unwrap();
-    console.log("result",result)
-    console.log("result.meta.requestStatus",result.meta)
+      console.log("result", result);
+      console.log("result.meta.requestStatus", result.meta);
       if (result) {
         const user = result;
-  
+
         if (user?.uid) {
           // Retrieve local cart after successful login
           const localCart = JSON.parse(localStorage.getItem("cart")) || [];
-  
+
           // Upload the local cart to the server
           if (localCart.length > 0) {
             try {
@@ -81,19 +81,19 @@ const Login = () => {
                   )
                 )
               );
-             const updatedcart = await dispatch(fetchCart(user.uid)).unwrap(); 
-              console.log("updated cart",updatedcart)
-         
+              const updatedcart = await dispatch(fetchCart(user.uid)).unwrap();
+              console.log("updated cart", updatedcart);
+
               console.log("All items added successfully.");
             } catch (error) {
               console.error("Error adding items to cart:", error);
             }
           }
-  
+
           // Navigate to the login page after successful cart upload
-          if( user.role !== "admin") {
-          navigate("/dashboard"); 
-          }else{
+          if (user.role !== "admin") {
+            navigate("/dashboard");
+          } else {
             navigate("/admin/dashboard");
           }
         } else {
@@ -102,28 +102,27 @@ const Login = () => {
       } else {
         console.error("User not found.");
       }
-    
     } catch (error) {
       console.error("Login process failed:", error);
     }
   };
-  
 
   useEffect(() => {
-    
     if (user && !loading) {
-      if(user.role === "admin") {
-      navigate("/admin/dashboard");
-    }else
-    {
-      navigate("/dashboard");
+      if (user.role === "admin") {
+        navigate("/admin/dashboard");
+      } else {
+        navigate("/dashboard");
+      }
     }
-  }
-  },[user,navigate]);
+  }, [user, navigate]);
 
   return (
     <div className="min-h-[90vh] flex items-center justify-center bg-gray-100">
-      <form onSubmit={handleSubmit} className="bg-white p-6 rounded shadow-md w-96">
+      <form
+        onSubmit={handleSubmit}
+        className="bg-white p-6 rounded shadow-md w-96"
+      >
         <h2 className="text-2xl font-bold mb-4">Login</h2>
         <div className="mb-4">
           <label className="block mb-1">Email</label>

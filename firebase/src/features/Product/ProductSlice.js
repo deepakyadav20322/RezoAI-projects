@@ -8,7 +8,6 @@ import {
   updateDoc,
   deleteDoc,
   query,
-  where,
   getDoc,
 } from "firebase/firestore";
 
@@ -86,35 +85,6 @@ export const deleteProduct = createAsyncThunk(
   }
 );
 
-// Increment product quantity in cart (Firestore update)
-export const incrementProduct = createAsyncThunk(
-  "products/incrementProduct",
-  async ({ productId, currentStock }, { rejectWithValue }) => {
-    try {
-      const productRef = doc(db, "products", productId);
-      const updatedStock = currentStock - 1; // Decrease stock by 1
-      await updateDoc(productRef, { stock: updatedStock });
-      return { productId, updatedStock };
-    } catch (error) {
-      return rejectWithValue(error.message);
-    }
-  }
-);
-
-// Decrement product quantity in cart (Firestore update)
-export const decrementProduct = createAsyncThunk(
-  "products/decrementProduct",
-  async ({ productId, currentStock }, { rejectWithValue }) => {
-    try {
-      const productRef = doc(db, "products", productId);
-      const updatedStock = currentStock + 1; // Increase stock by 1
-      await updateDoc(productRef, { stock: updatedStock });
-      return { productId, updatedStock };
-    } catch (error) {
-      return rejectWithValue(error.message);
-    }
-  }
-);
 
  export const fetchProductById = createAsyncThunk(
   "products/fetchProductById",
@@ -138,7 +108,6 @@ export const decrementProduct = createAsyncThunk(
 // Initial state
 const initialState = {
   products: [],
-  // cart: [],
   productDetails: null,
   loading: false,
   error: null,
@@ -221,39 +190,7 @@ const productSlice = createSlice({
         state.error = action.payload;
       })
 
-      // Increment Product
-      .addCase(incrementProduct.pending, (state) => {
-        state.loading = true;
-      })
-      .addCase(incrementProduct.fulfilled, (state, action) => {
-        state.loading = false;
-        const { productId, updatedStock } = action.payload;
-        const product = state.products.find((p) => p.id === productId);
-        if (product) {
-          product.stock = updatedStock;
-        }
-      })
-      .addCase(incrementProduct.rejected, (state, action) => {
-        state.loading = false;
-        state.error = action.payload;
-      })
 
-      // Decrement Product
-      .addCase(decrementProduct.pending, (state) => {
-        state.loading = true;
-      })
-      .addCase(decrementProduct.fulfilled, (state, action) => {
-        state.loading = false;
-        const { productId, updatedStock } = action.payload;
-        const product = state.products.find((p) => p.id === productId);
-        if (product) {
-          product.stock = updatedStock;
-        }
-      })
-      .addCase(decrementProduct.rejected, (state, action) => {
-        state.loading = false;
-        state.error = action.payload;
-      });
   },
 });
 

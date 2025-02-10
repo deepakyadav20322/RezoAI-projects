@@ -1,11 +1,12 @@
-import React, { useState } from "react";
+import React, { useCallback, useMemo, useState } from "react";
 import { FaStar, FaShoppingBag } from "react-icons/fa";
 import { useSelector, useDispatch } from "react-redux";
 import { addToCart, fetchCart } from "../../features/cart/cartSlice";
 import { Link } from "react-router-dom";
 import { toast } from "react-toastify";
+import { calculatePriceAftreDiscount, handleAddToCartWithAndWithoutLogin } from "../../Constant/utilityFunction";
 
-export default function ProductCard({
+const  ProductCard = ({
   id,
   title,
   description,
@@ -16,7 +17,7 @@ export default function ProductCard({
   brand,
   category,
   thumbnail,
-}) {
+}) => {
   const dispatch = useDispatch();
   const cartItems = useSelector((state) => state.cart.cartItems);
   const isLoggedIn = useSelector((state) => state.auth.user);
@@ -24,53 +25,69 @@ export default function ProductCard({
     JSON.parse(localStorage.getItem("cart")) || []
   );
 
-  const discountedPrice = discountPercentage
-    ? price - price * (discountPercentage / 100)
-    : price;
   const isInCart = cartItems?.some((item) => item.id === id);
   const IslocalCart = localCart?.some((item) => item.id === id);
-  console.log(isInCart);
+
+  // const handleAddToCart = async() => {
+  //   if (!isLoggedIn) {
+  //     // store in local storage
+  //     let cart = JSON.parse(localStorage.getItem("cart")) || [];
+  //     cart.push({
+  //       productId: id,
+  //       id,
+  //       product: {
+  //         id,
+  //         title,
+  //         description,
+  //         price,
+  //         discountPercentage,
+  //         rating,
+  //         stock,
+  //         brand,
+  //         category,
+  //         thumbnail,
+  //       },
+  //       quantity: 1,
+  //     });
+  //     localStorage.setItem("cart", JSON.stringify(cart));
+  //     setLocalCart(cart);
+  //     toast.success("Item added to cart");
+  //   } else {
+  //     let productId = id;
+  //     try {
+  //      const result =  await dispatch(addToCart({ userId: isLoggedIn.uid, productId, quantity: 1 })).unwrap();
+  //      if(result.meta.requestStatus === "fulfilled"){
+  //       toast.success("Item added to cart");
+       
+  //       await dispatch(fetchCart(isLoggedIn.uid)).unwrap();
+  //      }
+  //     } catch (error) {
+  //       toast.error(`Error adding item to cart: ${error.message}`);
+  //     }
+  //   }
+  // };
 
   const handleAddToCart = () => {
-    if (!isLoggedIn) {
-      // store in local storage
-      let cart = JSON.parse(localStorage.getItem("cart")) || [];
-      // cart.push();
-      cart.push({
-        productId: id,
-        id,
-        product: {
-          id,
-          title,
-          description,
-          price,
-          discountPercentage,
-          rating,
-          stock,
-          brand,
-          category,
-          thumbnail,
-        },
-        quantity: 1,
-      });
-      localStorage.setItem("cart", JSON.stringify(cart));
-      setLocalCart(cart);
-      toast.success("Item added to cart");
-    } else {
-      let productId = id;
-      dispatch(addToCart({ userId: isLoggedIn.uid, productId, quantity: 1 }))
-        .unwrap() // Using unwrap to handle resolved or rejected actions
-        .then(() => {
-          toast.success("Item added to cart");
+  
+    handleAddToCartWithAndWithoutLogin({
+      isLoggedIn,
+      id,
+      title,
+      description,
+      price,
+      discountPercentage,
+      rating,
+      stock,
+      brand,
+      category,
+      thumbnail,
+      setLocalCart,
+      dispatch,
+      toast,
 
-          dispatch(fetchCart(isLoggedIn.uid));
-        })
-        .catch((error) => {
-          // Show error if rejected
-          toast.error(`Error adding item to cart: ${error.message}`);
-        });
+    });
     }
-  };
+
 
   return (
     <div className="w-full max-w-[20rem] overflow-hidden border rounded-lg shadow-lg">
@@ -80,7 +97,6 @@ export default function ProductCard({
         className="relative flex justify-centers "
       >
         <img
-          // src={thumbnail || "https://via.placeholder.com/150"}
           src={thumbnail || "https://via.placeholder.com/150"}
           alt={title}
           className="transition-transform duration-300 ease-in-out hover:scale-105 object-cover h-42 w-full bg-slate-200 rounded-2xl m-1"
@@ -123,7 +139,7 @@ export default function ProductCard({
             {discountPercentage ? (
               <div className="flex items-center">
                 <span className="text-lg font-bold text-green-600">
-                  ₹{discountedPrice}
+                  ₹{calculatePriceAftreDiscount(price,discountPercentage)}
                 </span>
                 <span className="ml-2 text-sm text-gray-500 line-through">
                   ₹{price}
@@ -164,3 +180,6 @@ export default function ProductCard({
     </div>
   );
 }
+
+
+export default ProductCard;

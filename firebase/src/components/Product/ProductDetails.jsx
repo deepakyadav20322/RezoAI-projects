@@ -6,16 +6,18 @@ import { useParams } from "react-router-dom";
 import { useSelector } from "react-redux";
 import { toast } from "react-toastify";
 import { Link } from "react-router-dom";
-import { addToCart, fetchCart } from "../../features/cart/cartSlice";
 import ProductDetailSkeleton from "./LoaderProductDetails";
+import { calculatePriceAftreDiscount, handleAddToCartWithAndWithoutLogin } from "../../Constant/utilityFunction";
 
 const ProductDetails = ({}) => {
-  const [product, setProduct] = useState(null);
   const dispatch = useDispatch();
+  const [product, setProduct] = useState(null);
   const cartItems = useSelector((state) => state.cart.cartItems);
-  const { productId: paramProductId } = useParams(); // Get productId from URL
+  const { productId } = useParams(); // Get productId from URL
+  const {loading} = useSelector((state) => state.products);
   const isLoggedIn = useSelector((state) => state.auth.user);
-  const productId = paramProductId;
+
+  // const productId = paramProductId;
   const [localCart, setLocalCart] = useState(
     JSON.parse(localStorage.getItem("cart")) || []
   );
@@ -39,67 +41,77 @@ const ProductDetails = ({}) => {
     fetchProduct();
   }, [productId, dispatch]);
 
+  // const handleAddToCart = () => {
+  //   if (!isLoggedIn) {
+  //     // store in local storage
+  //     let cart = JSON.parse(localStorage.getItem("cart")) || [];
+  //     // cart.push();
+  //     cart.push({
+  //       productId: product.id,
+  //       id: productId,
+  //       product: {
+  //         id: product.id,
+  //         title: product.title,
+  //         description: product.description,
+  //         price: product.price,
+  //         discountPercentage: product.discountPercentage,
+  //         rating: product.rating,
+  //         stock: product.stock,
+  //         brand: product.brand,
+  //         category: product.category,
+  //         thumbnail: product.thumbnail,
+  //       },
+  //       quantity: 1,
+  //     });
+  //     localStorage.setItem("cart", JSON.stringify(cart));
+  //     setLocalCart(cart);
+  //     toast.success("Item added to cart");
+  //   } else {
+  //     // let productId = id;
+  //     dispatch(addToCart({ userId: isLoggedIn.uid, productId, quantity: 1 }))
+  //       .unwrap()
+  //       .then(() => {
+  //         toast.success("Item added to cart");
 
-
+  //         dispatch(fetchCart(isLoggedIn.uid));
+  //       })
+  //       .catch((error) => {
+  //         // Show error if rejected
+  //         toast.error(`Error adding item to cart: ${error.message}`);
+  //       });
+  //   }
+  // };
+   
   const handleAddToCart = () => {
-    if (!isLoggedIn) {
-      // store in local storage
-      let cart = JSON.parse(localStorage.getItem("cart")) || [];
-      // cart.push();
-      cart.push({
-        productId: product.id,
-        id: productId,
-        product: {
-          id: product.id,
-          title: product.title,
-          description: product.description,
-          price: product.price,
-          discountPercentage: product.discountPercentage,
-          rating: product.rating,
-          stock: product.stock,
-          brand: product.brand,
-          category: product.category,
-          thumbnail: product.thumbnail,
-        },
-        quantity: 1,
-      });
-      localStorage.setItem("cart", JSON.stringify(cart));
-      setLocalCart(cart);
-      toast.success("Item added to cart");
-    } else {
-      // let productId = id;
-      dispatch(addToCart({ userId: isLoggedIn.uid, productId, quantity: 1 }))
-        .unwrap()
-        .then(() => {
-          toast.success("Item added to cart");
-
-          dispatch(fetchCart(isLoggedIn.uid));
-        })
-        .catch((error) => {
-          // Show error if rejected
-          toast.error(`Error adding item to cart: ${error.message}`);
-        });
-    }
+    handleAddToCartWithAndWithoutLogin({
+      isLoggedIn, 
+      id: product.id,
+      title: product.title,
+      description: product.description,
+      price: product.price,
+      discountPercentage: product.discountPercentage,
+      rating: product.rating,
+      stock: product.stock,
+      brand: product.brand,
+      category: product.category,
+      thumbnail: product.thumbnail,
+      setLocalCart,
+      dispatch,
+      toast,
+    });
   };
-
-  const discountedPrice = (
-    parseFloat(product?.price) *
-    (1 - parseFloat(product?.discountPercentage) / 100)
-  ).toFixed(2);
-
-
 
   if (!product) return <ProductDetailSkeleton />;
   return (
     <div className="container mx-auto px-4 py-8">
       <div className="grid md:grid-cols-2 gap-8">
         <div className="space-y-4">
-          <div className="aspect-square relative overflow-hidden rounded-lg bg-gray-100 flex items-center justify-center">
+          <div className="aspect-square relative overflow-hidden rounded-lg bg-gray-100 flex items-center justify-center ">
             {product?.thumbnail ? (
               <img
                 src={product.thumbnail}
                 alt={product.title}
-                className="w-[20rem] h-[20rem] object-cover"
+                className="w-[20rem] h-[20rem] object-contain"
               />
             ) : (
               <div className="text-gray-500">No image available</div>
@@ -132,7 +144,11 @@ const ProductDetails = ({}) => {
             </span>
           </div>
           <div className="text-2xl font-bold">
-            ${discountedPrice}
+            $
+            {calculatePriceAftreDiscount(
+              product.price,
+              product.discountPercentage
+            )}
             {product.discountPercentage !== "0" && (
               <span className="ml-2 text-sm text-gray-500 line-through">
                 ${product?.price}
@@ -144,7 +160,9 @@ const ProductDetails = ({}) => {
           )}
           <p className="text-gray-700">{product.description}</p>
           <div className="flex items-center gap-2">
-           {product.stock>0 && <p className="text-sm text-gray-500">In stock: {product.stock}</p>}
+            {product.stock > 0 && (
+              <p className="text-sm text-gray-500">In stock: {product.stock}</p>
+            )}
             {product.stock == 0 && (
               <span className="px-2 py-1 bg-red-100 text-red-600 text-sm rounded-full">
                 Out of Stock
@@ -162,7 +180,7 @@ const ProductDetails = ({}) => {
             <button
               onClick={handleAddToCart}
               className="w-1/2 flex items-center justify-center px-4 py-2 bg-blue-500 text-white font-semibold rounded-lg hover:bg-blue-600 disabled:opacity-50 disabled:cursor-not-allowed"
-              disabled={product.stock === 0 || product.stock < 1}
+              disabled={product.stock === 0 || loading}
             >
               Add to Cart
             </button>

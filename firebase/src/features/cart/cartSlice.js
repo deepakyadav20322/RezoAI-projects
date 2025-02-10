@@ -45,7 +45,7 @@ export const fetchCart = createAsyncThunk("cart/fetch", async (userId) => {
       };
     })
   );
-    console.log("cartItems:",cartItems);
+    // console.log("cartItems:",cartItems);
   return cartItems;
 });
 
@@ -73,7 +73,7 @@ export const updateQuantity = createAsyncThunk(
       return { id, quantity };
     } else {
       await deleteDoc(cartRef);
-      return { id, quantity: 0 }; // Remove from Redux store
+      return { id, quantity: 0 }; // Remove from Redux store(quantity =0 means that item in cart)
     }
   }
 );
@@ -133,6 +133,11 @@ const cartSlice = createSlice({
       })
       .addCase(addToCart.fulfilled, (state, action) => {
         state.cartItems.push(action.payload);
+      })
+      .addCase(addToCart.rejected, (state, action) => {
+        state.status = "failed";
+        state.error = action.error.message;
+        console.log(action.error.message);
       })
       .addCase(updateQuantity.fulfilled, (state, action) => {
         const item = state.cartItems.find((i) => i.id === action.payload.id);
