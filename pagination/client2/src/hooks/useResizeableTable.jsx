@@ -1,6 +1,6 @@
 import { useState } from "react";
 
-const useResizableTable = (initialWidths) =>{
+const useResizableTable = (initialWidths, minWidth = 50, maxWidth = 500) => {
   const [columnWidths, setColumnWidths] = useState(initialWidths);
 
   const startResizing = (index, event) => {
@@ -9,7 +9,7 @@ const useResizableTable = (initialWidths) =>{
     const startWidth = columnWidths[index];
 
     const onMouseMove = (e) => {
-      const newWidth = Math.max(50, startWidth + (e.clientX - startX)); // Prevent too small columns
+      const newWidth = Math.max(minWidth, Math.min(maxWidth, startWidth + (e.clientX - startX)));
       setColumnWidths((prevWidths) => {
         const updatedWidths = [...prevWidths];
         updatedWidths[index] = newWidth;
@@ -27,6 +27,6 @@ const useResizableTable = (initialWidths) =>{
   };
 
   return { columnWidths, startResizing };
-}
+};
 
 export default useResizableTable;

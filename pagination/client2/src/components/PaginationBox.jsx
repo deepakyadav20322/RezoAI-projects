@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import usePagination from "../hooks/usePagination";
 import { useData } from "../context/DataContext";
 
@@ -6,13 +6,18 @@ const PaginationBox = () => {
     const { data,setRows,rows,rowsPerPage,setRowsPerPage } = useData();
    
     const { paginatedRows, currentPage, paginate, totalPages } = usePagination(data, rowsPerPage);
-     setRows(paginatedRows)
-    console.log("paginatedRows",paginatedRows);
+    //  setRows(paginatedRows)
+
 
     const handleRowsPerPageChange = (e) => {
         const newValue = Number(e.target.value);
         setRowsPerPage(newValue > 0 ? newValue : 1);  // Ensure rowsPerPage is at least 1
     };
+
+     useEffect(() => {
+        setRows(paginatedRows)
+    }
+    , [paginatedRows])
 
     return (
         <div className="flex items-center space-x-2">
