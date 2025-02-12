@@ -3,7 +3,7 @@ import usePagination from "../hooks/usePagination";
 import { useData } from "../context/DataContext";
 
 const PaginationBox = () => {
-    const { data,setRows,rows,rowsPerPage,setRowsPerPage } = useData();
+    const { data,setRows,rowsPerPage,setRowsPerPage } = useData();
    
     const { paginatedRows, currentPage, paginate, totalPages } = usePagination(data, rowsPerPage);
     //  setRows(paginatedRows)
@@ -25,7 +25,7 @@ const PaginationBox = () => {
             <button
                 onClick={() => paginate(currentPage - 1)}
                 disabled={currentPage === 1}
-                className="border border-gray-300 p-2 rounded-l hover:bg-gray-100 bg-gray-200"
+                className="border border-gray-300 p-2  w-22  hover:bg-gray-800 bg-black text-white rounded-lg"
             >
                 Previous
             </button>
@@ -44,7 +44,7 @@ const PaginationBox = () => {
             <button
                 onClick={() => paginate(currentPage + 1)}
                 disabled={currentPage === totalPages}
-                className="border border-gray-300 p-2 rounded-r hover:bg-gray-100 bg-gray-200"
+                className="border border-gray-300 p-2 w-22  hover:bg-gray-800 bg-black text-white rounded-lg"
             >
                 Next
             </button>
