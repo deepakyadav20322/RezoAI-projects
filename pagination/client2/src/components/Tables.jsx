@@ -411,12 +411,14 @@
 
 
 import React from "react";
-import { useRef, useEffect } from "react";
+import { useRef } from "react";
 import { useState } from "react";
 import { X, ChevronsUpDown, ChevronLeft } from "lucide-react";
 import { useData } from "../context/DataContext";
 import useResizableTable from "../hooks/useResizeableTable";
 import TableCommandHeader from "../components/TableCammandHeader";
+import { p } from "framer-motion/client";
+
 
 const Tables = () => {
   const { rows, headers, handleSort } = useData();
@@ -434,7 +436,6 @@ const Tables = () => {
 
   const closeModal = () => {
     setModalStack(modalStack.slice(0, -1));
-     
   };
 
   const closeAllModals = () => {
@@ -497,28 +498,36 @@ const Tables = () => {
                 </tr>
               </thead>
               <tbody className="bg-white divide-y divide-gray-200">
-                {rows.map((item, rowIndex) => (
-                  <tr key={rowIndex} className="hover:bg-gray-50">
-                    {headers.map(
-                      (header, colIndex) =>
-                        header.visible && (
-                          <td
-                            key={colIndex}
-                            className="px-6 py-4 text-sm text-gray-500 border border-gray-300 max-w-64 truncate"
-                          >
-                            {renderCellContent(item[header.accessor])}
-                          </td>
-                        )
-                    )}
+                {rows && rows.length > 0 ? (
+                  rows.map((item, rowIndex) => (
+                    <tr key={rowIndex} className="hover:bg-gray-50">
+                      {headers.map(
+                        (header, colIndex) =>
+                          header.visible && (
+                            <td
+                              key={colIndex}
+                              className="px-6 py-4 text-sm text-gray-500 border border-gray-300 max-w-64 truncate"
+                            >
+                              {renderCellContent(item[header.accessor])}
+                            </td>
+                          )
+                      )}
+                    </tr>
+                  ))
+                ) : (
+                  <tr>
+                    <td colSpan={headers.filter(header => header.visible).length} className="text-center py-4 text-medium text-gray-500">
+                      No Data Available
+                    </td>
                   </tr>
-                ))}
+                )}
               </tbody>
             </table>
           </div>
         </div>
       </div>
 
-      {modalStack.length > 0 && (
+      {modalStack && modalStack.length > 0 && (
         <div className="fixed inset-0 bg-black/60 backdrop-blur-sm flex items-center justify-center p-4 z-50">
           <div className="bg-white rounded-lg shadow-xl w-full max-w-2xl">
             <div className="p-6">
