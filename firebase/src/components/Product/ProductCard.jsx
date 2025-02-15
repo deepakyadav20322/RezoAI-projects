@@ -90,7 +90,7 @@ const  ProductCard = ({
 
 
   return (
-    <div className="w-full max-w-[20rem] overflow-hidden border rounded-lg shadow-lg">
+    <div className="w-full max-w-[20rem] overflow-hidden border rounded-lg shadow-lg ">
       {/* Product Image */}
       <Link
         to={`/product-detail/${id}`}

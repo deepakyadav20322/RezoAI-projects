@@ -77,56 +77,52 @@
 
 
 
-"use client"
 
 import React, { useState } from "react"
 import { useData } from "../context/DataContext"
 import useOutsideClick from "../hooks/OutSideClick"
 import { ChevronDown, Search, SlidersHorizontal } from "lucide-react"
+import { motion } from "framer-motion"
 
 const ToggleColumn = () => {
-  const { headers, toggleColumnVisibility } = useData()
-  const [isOpen, setIsOpen] = React.useState(false)
-  const [searchTerm, setSearchTerm] = useState("")
+  const { headers, toggleColumnVisibility } = useData();
+  const [isOpen, setIsOpen] = useState(false);
+  const [searchTerm, setSearchTerm] = useState("");
   const dropdownRef = useOutsideClick(() => {
-    setIsOpen(false)
-    setSearchTerm("")
-  })
+    setIsOpen(false);
+    setSearchTerm("");
+  });
 
-  const filteredHeaders = headers.filter((header) => header.Header.toLowerCase().includes(searchTerm.toLowerCase()))
+  const filteredHeaders = headers.filter((header) =>
+    header.Header.toLowerCase().includes(searchTerm.toLowerCase())
+  );
 
   const handleHeaderColumnSearch = (e) => {
-    setSearchTerm(e.target.value)
-  }
+    setSearchTerm(e.target.value);
+  };
 
-  const handleSelectAll = () => {
-    headers.forEach((header) => {
-      if (!header.visible) {
-        toggleColumnVisibility(header.accessor)
-      }
-    })
-  }
-
-  const handleDeselectAll = () => {
-    headers.forEach((header) => {
-      if (header.visible) {
-        toggleColumnVisibility(header.accessor)
-      }
-    })
-  }
+  const handleToggle = (column) => {
+    toggleColumnVisibility(column);
+  };
 
   return (
     <div className="relative inline-block" ref={dropdownRef}>
       <button
         onClick={() => setIsOpen(!isOpen)}
-        className="flex items-center justify-center px-4 py-2 text-sm font-medium text-gray-700 bg-white border border-gray-300 rounded-md shadow-sm hover:bg-gray-50 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500"
+        className="flex items-center justify-center px-4 py-1 text-sm font-medium text-gray-700 bg-white border border-gray-300 rounded-md shadow-sm hover:bg-gray-50 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500"
       >
         <SlidersHorizontal className="w-4 h-4 mr-2" />
         Columns
       </button>
 
       {isOpen && (
-        <div className="absolute right-0 mt-2 w-64 bg-white border border-gray-200 rounded-md shadow-lg z-10">
+        <motion.div
+          initial={{ opacity: 0, y: -10 }}
+          animate={{ opacity: 1, y: 0 }}
+          exit={{ opacity: 0, y: -10 }}
+          transition={{ duration: 0.2, ease: "easeInOut" }}
+          className="absolute right-0 mt-2 w-64 bg-white border border-gray-200 rounded-md shadow-lg z-10"
+        >
           <div className="p-3 border-b border-gray-200">
             <h3 className="text-sm font-semibold text-gray-700">Toggle Columns</h3>
           </div>
@@ -144,33 +140,39 @@ const ToggleColumn = () => {
           </div>
           <div className="p-3 max-h-60 overflow-y-auto">
             {filteredHeaders.map((header) => (
-              <label
-                key={header.accessor}
-                className="flex items-center py-2 px-3 hover:bg-gray-100 rounded-md cursor-pointer"
-              >
-                <input
+              <label key={header.accessor} className="flex items-center py-2 px-3 hover:bg-gray-100 rounded-md cursor-pointer">
+                <motion.input
                   type="checkbox"
                   checked={header.visible}
-                  onChange={() => toggleColumnVisibility(header.accessor)}
+                  onChange={() => handleToggle(header.accessor)}
                   className="h-4 w-4 text-indigo-600 focus:ring-indigo-500 border-gray-300 rounded"
+                  whileTap={{ scale: 1.1 }}
                 />
                 <span className="ml-3 text-sm text-gray-700">{header.Header}</span>
               </label>
             ))}
           </div>
           <div className="p-3 border-t border-gray-200 bg-gray-50 flex justify-between">
-            <button onClick={handleSelectAll} className="text-sm text-indigo-600 hover:text-indigo-800 font-medium">
+            <motion.button
+              onClick={() => headers.forEach(header => toggleColumnVisibility(header.accessor))}
+              className="text-sm text-indigo-600 hover:text-indigo-800 font-medium"
+              whileHover={{ scale: 1.05 }}
+            >
               Select All
-            </button>
-            <button onClick={handleDeselectAll} className="text-sm text-indigo-600 hover:text-indigo-800 font-medium">
+            </motion.button>
+            <motion.button
+              onClick={() => headers.forEach(header => toggleColumnVisibility(header.accessor))}
+              className="text-sm text-indigo-600 hover:text-indigo-800 font-medium"
+              whileHover={{ scale: 1.05 }}
+            >
               Deselect All
-            </button>
+            </motion.button>
           </div>
-        </div>
+        </motion.div>
       )}
     </div>
-  )
-}
+  );
+};
 
-export default ToggleColumn
+export default ToggleColumn;
 

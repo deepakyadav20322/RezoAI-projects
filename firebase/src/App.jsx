@@ -22,23 +22,24 @@ import AllOrders from "./components/admin/AllOrders";
 import EditProduct from "./components/admin/EditProduct";
 import { onMessage } from "firebase/messaging";
 import { messaging } from "./firebase";
+import {  requestForToken } from "./components/NotificationPermission";
 
 function App() {
 
   useEffect(() => {
-    onMessage(messaging, (payload) => {
-      console.log("Foreground Message Received:", payload);
+    // Request permission for notifications
+    requestForToken();
 
-   
-      // 🔹 Show notification manually
-      if (Notification.permission === "granted") {
-        new Notification(payload.notification.title, {
-          body: payload.notification.body,
-          icon: "/firebase-logo.png",
-        });
-      } else {
-        console.warn("Notification permission is not granted!");
-      }
+    // Handle incoming messages
+    onMessage(messaging, (payload) => {
+      console.log("Foreground Notification Received:", payload);
+  
+      // Show a notification manually
+      new Notification(payload.notification.title, {
+        body: payload.notification.body,
+        icon: payload.notification.image || "/logo192.png",
+      });
+
     });
   }, []);
 

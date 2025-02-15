@@ -25,7 +25,7 @@ const PaginationBox = () => {
             <button
                 onClick={() => paginate(currentPage - 1)}
                 disabled={currentPage === 1}
-                className="border border-gray-300 p-2  w-22  hover:bg-gray-800 bg-black text-white rounded-lg"
+                className="border border-gray-300 px-2 py-1   w-22  hover:bg-gray-800 bg-black text-white rounded-lg"
             >
                 Previous
             </button>
@@ -35,7 +35,7 @@ const PaginationBox = () => {
                
                 value={rowsPerPage}
                 onChange={handleRowsPerPageChange}
-                className="border border-gray-300 p-2 outline-none focus:border-blue-500 w-16 text-center"
+                className="border border-gray-300 px-2 py-1  outline-none focus:border-blue-500 w-16 text-center"
             />
 
             <span className="mx-2">Page {currentPage} of {totalPages}</span>
@@ -44,7 +44,7 @@ const PaginationBox = () => {
             <button
                 onClick={() => paginate(currentPage + 1)}
                 disabled={currentPage === totalPages}
-                className="border border-gray-300 p-2 w-22  hover:bg-gray-800 bg-black text-white rounded-lg"
+                className="border border-gray-300 px-2 py-1 w-22  hover:bg-gray-800 bg-black text-white rounded-lg"
             >
                 Next
             </button>

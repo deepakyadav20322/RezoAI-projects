@@ -22,7 +22,7 @@ const YourModalComponent = ({ objectData, closeModal, columnName }) => {
   const path = columnName || "Root"; // Use the column name or default to "Root"
 
   return (
-    <div className="fixed inset-0 flex items-start pt-30 justify-center bg-white/20 backdrop-blur-xl z-50">
+    <div className="fixed inset-0 flex items-start pt-30 justify-center bg-white/40 z-50">
       <div className="bg-white p-5 rounded-md shadow-lg w-2/3 relative">
         <button onClick={closeModal} className="absolute top-3 right-3 text-red-600 text-xl">
           <X size={24} />

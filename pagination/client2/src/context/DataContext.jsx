@@ -7,6 +7,7 @@ const DataContextProvider = ({ children }) => {
   const [filteredData, setFilteredData] = useState([]);
   const [columnVisibility, setColumnVisibility] = useState({});
   const [headers, setHeaders] = useState([]);
+  const [isloading,setIsLoading] = useState(false)
   const [rows, setRows] = useState([]);
   const [rowsPerPage, setRowsPerPage] = useState(30);
   const [sortConfig, setSortConfig] = useState({ key: null, direction: "asc" });
@@ -14,6 +15,7 @@ const DataContextProvider = ({ children }) => {
 
   useEffect(() => {
     const fetchData = async () => {
+      setIsLoading(true)
       try {
         const data = await fetch("https://jsonplaceholder.typicode.com/users");
         // const data = await fetch("https://fakestoreapi.com/products");
@@ -69,7 +71,91 @@ const DataContextProvider = ({ children }) => {
     },
     "orders": [
       {
-        "orderId": "ORD12345",
+        "orderId": "ORD12349",
+        "items": [
+          {
+            "productId": "P1001",
+            "name": "Laptop",
+            "quantity": 1,
+            "price": 75000,
+            "seller": {
+              "id": "SELL5678",
+              "name": "Tech Store",
+              "ratings": {
+                "average": 4.5,
+                "reviews": [
+                  {
+                    "reviewId": "R1001",
+                    "userId": "6789012345",
+                    "rating": 5,
+                    "comment": "Excellent product!"
+                  }
+                ]
+              }
+            }
+          }
+        ],
+        "status": "Shipped",
+        "tracking": {
+          "carrier": "DHL",
+          "trackingId": "DHL56789",
+          "estimatedDelivery": "2025-02-15",
+          "history": [
+            {
+              "status": "Dispatched",
+              "timestamp": "2025-02-10T10:30:00Z"
+            },
+            {
+              "status": "In Transit",
+              "timestamp": "2025-02-11T15:45:00Z"
+            }
+          ]
+        }
+      },
+      {
+        "orderId": "ORD12343",
+        "items": [
+          {
+            "productId": "P1001",
+            "name": "Laptop",
+            "quantity": 1,
+            "price": 75000,
+            "seller": {
+              "id": "SELL5678",
+              "name": "Tech Store",
+              "ratings": {
+                "average": 4.5,
+                "reviews": [
+                  {
+                    "reviewId": "R1001",
+                    "userId": "6789012345",
+                    "rating": 5,
+                    "comment": "Excellent product!"
+                  }
+                ]
+              }
+            }
+          }
+        ],
+        "status": "Shipped",
+        "tracking": {
+          "carrier": "DHL",
+          "trackingId": "DHL56789",
+          "estimatedDelivery": "2025-02-15",
+          "history": [
+            {
+              "status": "Dispatched",
+              "timestamp": "2025-02-10T10:30:00Z"
+            },
+            {
+              "status": "In Transit",
+              "timestamp": "2025-02-11T15:45:00Z"
+            }
+          ]
+        }
+      },
+      {
+        "orderId": "ORD12346",
         "items": [
           {
             "productId": "P1001",
@@ -1402,11 +1488,11 @@ const DataContextProvider = ({ children }) => {
   },
   
 ]
-        setData(response);
-        setRows(response);
+        // setData(response);
+        // setRows(response);
 
-        // setData(kake);
-        // setRows(kake);
+        setData(kake);
+        setRows(kake);
 
         const defaultVisibility =
           response.length > 0
@@ -1419,6 +1505,8 @@ const DataContextProvider = ({ children }) => {
         setColumnVisibility(defaultVisibility);
       } catch (error) {
         console.log(error);
+      }finally{
+        setIsLoading(false)
       }
     };
     fetchData();
@@ -1427,7 +1515,6 @@ const DataContextProvider = ({ children }) => {
 //   // create table columns on besis of data
 //   const columns = data.length > 0 ? Object.keys(data[0]) : [];
 
-  
 
   // Update headers when columnVisibility changes
   useEffect(() => {
@@ -1448,6 +1535,7 @@ const DataContextProvider = ({ children }) => {
 
   // Function to toggle column visibility
   const toggleColumnVisibility = (column) => {
+    console.log("hare rama")
     setColumnVisibility((prevVisibility) => ({
       ...prevVisibility,
       [column]: !prevVisibility[column],
@@ -1485,7 +1573,8 @@ const DataContextProvider = ({ children }) => {
         handleSort,
         sortConfig,
         filteredData,
-        setFilteredData
+        setFilteredData,
+        isloading
       }}
     >
       {children}

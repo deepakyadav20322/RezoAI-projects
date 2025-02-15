@@ -59,7 +59,7 @@ const ProductSidebar = ({ filters, onFilterChange }) => {
   };
 
   return (
-    <aside className="w-64 bg-white shadow-lg p-4 rounded-lg">
+    <aside className="w-64 bg-white shadow-lg p-4 rounded-lg mt-6 md:mt-2">
       <div className="flex justify-between items-center mb-4">
         <h3 className="text-lg font-semibold">PRICE</h3>
         <button
@@ -75,7 +75,7 @@ const ProductSidebar = ({ filters, onFilterChange }) => {
           type="number"
           value={minPrice}
           onChange={(e) => handlePriceChange(0, e.target.value)}
-          className="w-20 px-2 py-1 border rounded"
+          className="w-22 px-2 py-1 border rounded"
           min="0"
           placeholder="Min"
         />
@@ -84,7 +84,7 @@ const ProductSidebar = ({ filters, onFilterChange }) => {
           type="number"
           value={maxPrice}
           onChange={(e) => handlePriceChange(1, e.target.value)}
-          className="w-20 px-2 py-1 border rounded"
+          className="w-22 px-2 py-1 border rounded"
           min="0"
           placeholder="Max"
         />

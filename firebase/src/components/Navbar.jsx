@@ -101,9 +101,11 @@ const Navbar = () => {
           </Link>
           {user &&(
             <>
+              {user.role === "user" && (
           <Link to="/dashboard" className="hover:text-gray-400">
            {'Dashboard'}
           </Link>
+)}
             {user.role === "admin" && (
           <Link to="/admin/dashboard" className="hover:text-gray-400">
            Admin-Dashboard
