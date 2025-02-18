@@ -74,23 +74,20 @@
 
 // export default ToggleColumn;
 
-
-
-
-
-import React, { useState } from "react"
-import { useData } from "../context/DataContext"
-import useOutsideClick from "../hooks/OutSideClick"
-import { ChevronDown, Search, SlidersHorizontal } from "lucide-react"
-import { motion } from "framer-motion"
+import React, { useState } from "react";
+import { useData } from "../context/DataContext";
+import useOutsideClick from "../hooks/OutSideClick";
+import {  Search, SlidersHorizontal } from "lucide-react";
+import { motion, AnimatePresence } from "framer-motion"; // Import AnimatePresence
 
 const ToggleColumn = () => {
   const { headers, toggleColumnVisibility } = useData();
   const [isOpen, setIsOpen] = useState(false);
   const [searchTerm, setSearchTerm] = useState("");
+
   const dropdownRef = useOutsideClick(() => {
     setIsOpen(false);
-    setSearchTerm("");
+    setSearchTerm(""); // Reset search on close
   });
 
   const filteredHeaders = headers.filter((header) =>
@@ -105,6 +102,20 @@ const ToggleColumn = () => {
     toggleColumnVisibility(column);
   };
 
+  // Select All
+  const handleSelectAll = () => {
+    headers.forEach(header => {
+      if (!header.visible) toggleColumnVisibility(header.accessor);
+    });
+  };
+
+  // Deselect All
+  const handleDeselectAll = () => {
+    headers.forEach(header => {
+      if (header.visible) toggleColumnVisibility(header.accessor);
+    });
+  };
+
   return (
     <div className="relative inline-block" ref={dropdownRef}>
       <button
@@ -115,64 +126,72 @@ const ToggleColumn = () => {
         Columns
       </button>
 
-      {isOpen && (
-        <motion.div
-          initial={{ opacity: 0, y: -10 }}
-          animate={{ opacity: 1, y: 0 }}
-          exit={{ opacity: 0, y: -10 }}
-          transition={{ duration: 0.2, ease: "easeInOut" }}
-          className="absolute right-0 mt-2 w-64 bg-white border border-gray-200 rounded-md shadow-lg z-10"
-        >
-          <div className="p-3 border-b border-gray-200">
-            <h3 className="text-sm font-semibold text-gray-700">Toggle Columns</h3>
-          </div>
-          <div className="p-3 border-b border-gray-200">
-            <div className="relative">
-              <input
-                type="text"
-                placeholder="Search columns..."
-                value={searchTerm}
-                onChange={handleHeaderColumnSearch}
-                className="w-full px-3 py-2 text-sm text-gray-700 placeholder-gray-400 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-indigo-500 focus:border-indigo-500"
-              />
-              <Search className="absolute right-3 top-2.5 h-5 w-5 text-gray-400" />
+      <AnimatePresence>
+        {isOpen && (
+          <motion.div
+            initial={{ opacity: 0, y: -10 }}
+            animate={{ opacity: 1, y: 0 }}
+            exit={{ opacity: 0, y: -10 }} // Ensure exit animation
+            transition={{ duration: 0.2, ease: "easeInOut" }}
+            className="absolute right-0 mt-2 w-64 bg-white border border-gray-200 rounded-md shadow-lg z-10"
+          >
+            {/* Header */}
+            <div className="p-3 border-b border-gray-200 flex justify-between items-center">
+              <h3 className="text-sm font-semibold text-gray-700">Toggle Columns</h3>
             </div>
-          </div>
-          <div className="p-3 max-h-60 overflow-y-auto">
-            {filteredHeaders.map((header) => (
-              <label key={header.accessor} className="flex items-center py-2 px-3 hover:bg-gray-100 rounded-md cursor-pointer">
-                <motion.input
-                  type="checkbox"
-                  checked={header.visible}
-                  onChange={() => handleToggle(header.accessor)}
-                  className="h-4 w-4 text-indigo-600 focus:ring-indigo-500 border-gray-300 rounded"
-                  whileTap={{ scale: 1.1 }}
+
+            {/* Search Input */}
+            <div className="p-3 border-b border-gray-200">
+              <div className="relative">
+                <input
+                  type="text"
+                  placeholder="Search columns..."
+                  value={searchTerm}
+                  onChange={handleHeaderColumnSearch}
+                  className="w-full px-3 py-2 text-sm text-gray-700 placeholder-gray-400 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-indigo-500 focus:border-indigo-500"
                 />
-                <span className="ml-3 text-sm text-gray-700">{header.Header}</span>
-              </label>
-            ))}
-          </div>
-          <div className="p-3 border-t border-gray-200 bg-gray-50 flex justify-between">
-            <motion.button
-              onClick={() => headers.forEach(header => toggleColumnVisibility(header.accessor))}
-              className="text-sm text-indigo-600 hover:text-indigo-800 font-medium"
-              whileHover={{ scale: 1.05 }}
-            >
-              Select All
-            </motion.button>
-            <motion.button
-              onClick={() => headers.forEach(header => toggleColumnVisibility(header.accessor))}
-              className="text-sm text-indigo-600 hover:text-indigo-800 font-medium"
-              whileHover={{ scale: 1.05 }}
-            >
-              Deselect All
-            </motion.button>
-          </div>
-        </motion.div>
-      )}
+                <Search className="absolute right-3 top-2.5 h-5 w-5 text-gray-400" />
+              </div>
+            </div>
+
+            {/* Column Toggle List */}
+            <div className="p-3 max-h-60 overflow-y-auto">
+              {filteredHeaders.map((header) => (
+                <label key={header.accessor} className="flex items-center py-2 px-3 hover:bg-gray-100 rounded-md cursor-pointer">
+                  <motion.input
+                    type="checkbox"
+                    checked={header.visible}
+                    onChange={() => handleToggle(header.accessor)}
+                    className="h-4 w-4 text-indigo-600 focus:ring-indigo-500 border-gray-300 rounded"
+                    whileTap={{ scale: 1.1 }}
+                  />
+                  <span className="ml-3 text-sm text-gray-700">{header.Header}</span>
+                </label>
+              ))}
+            </div>
+
+            {/* Select/Deselect All Buttons */}
+            <div className="p-3 border-t border-gray-200 bg-gray-50 flex justify-between">
+              <motion.button
+                onClick={handleSelectAll}
+                className="text-sm text-indigo-600 hover:text-indigo-800 font-medium"
+                whileHover={{ scale: 1.05 }}
+              >
+                Select All
+              </motion.button>
+              <motion.button
+                onClick={handleDeselectAll}
+                className="text-sm text-indigo-600 hover:text-indigo-800 font-medium"
+                whileHover={{ scale: 1.05 }}
+              >
+                Deselect All
+              </motion.button>
+            </div>
+          </motion.div>
+        )}
+      </AnimatePresence>
     </div>
   );
 };
 
 export default ToggleColumn;
-

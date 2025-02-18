@@ -177,6 +177,8 @@ const Tables = () => {
                 </button>
               </div>
 
+              {console.log(modalStack)}
+
               {isTableView ? (
                 <div className="overflow-x-auto">
                   <table className="min-w-full divide-y divide-gray-200 border-[1px] border-gray-300">
