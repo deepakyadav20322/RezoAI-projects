@@ -20,9 +20,9 @@ const usePagination = (data, rowsPerPage) => {
   }, [data, currentPage, rowsPerPage]);
 
   // Update global rows state (if needed)
-  useEffect(() => {
-    setRows(paginatedRows);
-  }, [paginatedRows, setRows]);
+//   useEffect(() => {
+//     setRows(paginatedRows);
+//   }, [paginatedRows, setRows]);
 
   // Pagination function
   const paginate = (pageNumber) => {
