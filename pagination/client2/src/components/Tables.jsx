@@ -90,7 +90,7 @@ const Tables = () => {
                   </tr>
                 </thead>
                 <tbody className="bg-white divide-y divide-gray-200">
-                  <AnimatePresence>
+                  {/* <AnimatePresence> */}
                     {rows && rows.length > 0 ? (
                       rows.map((item, rowIndex) => (
                         <motion.tr
@@ -108,7 +108,7 @@ const Tables = () => {
                                 initial={{ opacity: 0, scale: 0.9 }}
                                 animate={{ opacity: 1, scale: 1 }}
                                 exit={{ opacity: 0, scale: 0.9 }}
-                                transition={{ duration: 0.2 }}
+                                transition={{ duration: 0.3 }}
                               >
                                 {renderCellContent(item[header.accessor], header.accessor)}
                               </motion.td>
@@ -126,7 +126,7 @@ const Tables = () => {
                         </td>
                       </tr>
                     )}
-                  </AnimatePresence>
+                  {/* </AnimatePresence> */}
                 </tbody>
               </table>
             )}
