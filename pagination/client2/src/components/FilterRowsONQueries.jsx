@@ -3,6 +3,7 @@ import { Filter } from "lucide-react";
 import FilterComponent from './Filter';
 import { useData } from "../context/DataContext";
 import OutSideClick from "../hooks/OutSideClick";
+import { motion } from "framer-motion";
 
 const FilterQueryBuilder = () => {
   const { headers, setFilteredData, rows, setRows, data } = useData();
@@ -12,7 +13,7 @@ const FilterQueryBuilder = () => {
     { where: "WHERE", column: "", condition: "equals", value: "" },
   ]);
 
-  const filterRef = OutSideClick(() => setIsOpen(!isOpen));
+  const filterRef = OutSideClick(() => setIsOpen(false));
 
   const availableColumns = headers.map((h) => h.accessor);
 
@@ -141,30 +142,59 @@ const FilterQueryBuilder = () => {
   };
 
   return (
-    <div className="relative inline-block text-sm">
+    
+    <motion.div 
+      initial={{ opacity: 0, scale: 0 }}
+      animate={{ opacity: 1, scale: 1 }}
+      transition={{ duration: 0.2 }}
+      className="relative inline-block text-sm">
       <button
-        onClick={() => setIsOpen(p => !p)}
+      
+        onClick={(e) =>{
+          e.stopPropagation();
+           setIsOpen(!isOpen)
+          }}
         className="flex items-center justify-center px-4 py-1 text-sm font-medium text-gray-700 bg-white border border-gray-300 rounded-md shadow-sm hover:bg-gray-50 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500 text-nowrap gap-x-2"
       >
         <Filter className="w-4 h-4" />
-        <span className="font-medium ">Filter</span>
+        <span className="font-medium">Filters</span>
       </button>
 
       {isOpen && (
-        <div className="absolute left-0  mt-2 min-w-80 bg-white border-2 border-gray-400 rounded-lg shadow-xl p-4 z-10 space-y-3" ref={filterRef}>
+        <motion.div 
+          exit={{ opacity: 0, y: -5 }}
+          transition={{ 
+            type: "spring",
+            stiffness: 300,
+            damping: 25
+          }}
+          className="absolute left-0 mt-2 min-w-80 bg-white border-2 border-gray-400 rounded-lg shadow-xl p-4 z-10 space-y-3" 
+          ref={filterRef}
+        >
           {filters.map((filter, index) => (
-            <FilterComponent
+            <motion.div
               key={index}
-              filter={filter}
-              index={index}
-              onFilterChange={handleFilterChange}
-              availableColumns={availableColumns}
-              searchColumnsValue={searchColumnsValue}
-              onSearchChange={(e) => setSearchColumnsValue(e.target.value)}
-              onRemove={handleRemoveFilter}
-            />
+              initial={{ opacity: 0, x: -20 }}
+              animate={{ opacity: 1, x: 0 }}
+              transition={{ delay: index * 0.1 }}
+            >
+              <FilterComponent
+                filter={filter}
+                index={index}
+                onFilterChange={handleFilterChange}
+                availableColumns={availableColumns}
+                searchColumnsValue={searchColumnsValue}
+                onSearchChange={(e) => setSearchColumnsValue(e.target.value)}
+                onRemove={handleRemoveFilter}
+              />
+            </motion.div>
           ))}
-          <div className="flex w-full gap-2">
+          <motion.div 
+            className="flex w-full gap-2"
+            initial={{ opacity: 0 }}
+            animate={{ opacity: 1 }}
+            transition={{ delay: 0.1 }}
+          >
             <button
               onClick={handleAddFilter}
               className="w-full text-center bg-slate-300 text-black px-3 py-2 rounded-md hover:bg-slate-300 text-nowrap"
@@ -183,10 +213,10 @@ const FilterQueryBuilder = () => {
             >
               Apply
             </button>
-          </div>
-        </div>
+          </motion.div>
+        </motion.div>
       )}
-   </div>
+    </motion.div>
   );
 };
 

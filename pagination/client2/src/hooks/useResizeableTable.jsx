@@ -1,32 +1,34 @@
-import { useState } from "react";
+import { useState, useCallback } from "react";
 
-const useResizableTable = (initialWidths, minWidth = 50, maxWidth = 500) => {
+const useResizableColumn = (initialWidths, minWidth = 100, maxWidth = 800) => {
   const [columnWidths, setColumnWidths] = useState(initialWidths);
 
-  const startResizing = (index, event) => {
-    event.preventDefault();
-    const startX = event.clientX;
-    const startWidth = columnWidths[index];
+  const handleMouseDown = useCallback(
+    (index, e) => {
+      const startX = e.clientX;
+      const startWidth = columnWidths[index];
 
-    const onMouseMove = (e) => {
-      const newWidth = Math.max(minWidth, Math.min(maxWidth, startWidth + (e.clientX - startX)));
-      setColumnWidths((prevWidths) => {
-        const updatedWidths = [...prevWidths];
-        updatedWidths[index] = newWidth;
-        return updatedWidths;
-      });
-    };
+      const handleMouseMove = (e) => {
+        const newWidth = startWidth + (e.clientX - startX);
+        if (newWidth >= minWidth && newWidth <= maxWidth) {
+          const newColumnWidths = [...columnWidths];
+          newColumnWidths[index] = newWidth;
+          setColumnWidths(newColumnWidths);
+        }
+      };
 
-    const onMouseUp = () => {
-      document.removeEventListener("mousemove", onMouseMove);
-      document.removeEventListener("mouseup", onMouseUp);
-    };
+      const handleMouseUp = () => {
+        document.removeEventListener("mousemove", handleMouseMove);
+        document.removeEventListener("mouseup", handleMouseUp);
+      };
 
-    document.addEventListener("mousemove", onMouseMove);
-    document.addEventListener("mouseup", onMouseUp);
-  };
+      document.addEventListener("mousemove", handleMouseMove);
+      document.addEventListener("mouseup", handleMouseUp);
+    },
+    [columnWidths, minWidth, maxWidth]
+  );
 
-  return { columnWidths, startResizing };
+  return { columnWidths, handleMouseDown };
 };
 
-export default useResizableTable;
+export default useResizableColumn;
