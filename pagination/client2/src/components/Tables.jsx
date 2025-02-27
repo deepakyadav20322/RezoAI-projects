@@ -337,6 +337,7 @@ const Tables = () => {
                           key={item.accessor}
                           className="relative px-6 py-3 text-left text-xs font-medium text-black uppercase tracking-wider cursor-pointer border border-gray-300"
                           style={{ width: columnWidths[ind] || 150 }}
+                          onClick={() => handleSort(item.accessor)}
                         >
                           <div className="flex items-center justify-between">
                             <span>{item.Header}</span>

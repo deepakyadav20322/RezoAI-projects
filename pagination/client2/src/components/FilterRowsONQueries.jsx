@@ -22,9 +22,15 @@ const FilterQueryBuilder = () => {
   };
 
   const handleFilterChange = (index, field, value) => {
+
     const newFilters = [...filters];
+  
     newFilters[index][field] = value;
+    console.log(value,index)
+    
     setFilters(newFilters);
+   
+   
   };
 
   const handleRemoveFilter = (index) => {

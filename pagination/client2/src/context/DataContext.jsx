@@ -1,3 +1,4 @@
+import { col } from "framer-motion/client";
 import React, { createContext, useContext, useState, useEffect } from "react";
 
 export const DataContext = createContext();
@@ -1549,6 +1550,7 @@ const DataContextProvider = ({ children }) => {
 
   // Handle Sorting
   const handleSort = (column) => {
+    console.log(column)
     let direction = "asc";
     if (sortConfig.key === column && sortConfig.direction === "asc") {
       direction = "desc";

@@ -51,4 +51,5 @@ const filterOperators = {
   
   // Use filterOperators for filter options
   const filterOptions = Object.values(filterOperators);
+  console.log(filterOperators)
   

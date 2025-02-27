@@ -86,12 +86,13 @@ const Filter = ({
         </select>
         <ChevronDown className="absolute right-2 top-1/2 -translate-y-1/2 w-4 h-4 text-gray-400 pointer-events-none" />
       </div>
-
+      
       <input
         type="text"
         placeholder="Value"
-        className="flex-grow rounded bg-white px-3 py-1.5 border border-gray-200 text-sm text-gray-900 placeholder-gray-400 hover:border-gray-300 focus:border-gray-400 focus:outline-none focus:ring-0 transition-colors duration-200"
-        value={filter.value}
+        className={`flex-grow rounded bg-white px-3 py-1.5 border border-gray-200 text-sm text-gray-900 placeholder-gray-400 hover:border-gray-300 focus:border-gray-400 focus:outline-none focus:ring-0 transition-colors duration-200 ${(filter.condition=="isNull" || filter.condition=="isNotNull")?"disabled:cursor-not-allowed":""}`}
+        disabled={filter.condition === "isNull" || filter.condition === "isNotNull"}
+        value={(filter.condition === "isNull" || filter.condition === "isNotNull")?"":filter.value}
         onChange={(e) => onFilterChange(index, "value", e.target.value)}
       />
     </div>
@@ -104,7 +105,7 @@ Filter.propTypes = {
   onFilterChange: PropTypes.func.isRequired,
   availableColumns: PropTypes.array.isRequired,
   searchColumnsValue: PropTypes.string.isRequired,
-  onSearchChange: PropTypes.func.isRequired,
+  // onSearchChange: PropTypes.func.isRequired,
   onRemove: PropTypes.func.isRequired,
 };
 
