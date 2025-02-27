@@ -265,6 +265,7 @@ import useResizableColumn from "../hooks/useResizeableTable";
 import TableCommandHeader from "../components/TableCammandHeader";
 import TableLoader from "../components/Tableloader";
 import { motion, AnimatePresence } from "framer-motion";
+import PaginationBox from "../components/PaginationBox"
 
 const Tables = () => {
   const { rows, headers, handleSort, isloading } = useData();
@@ -318,7 +319,7 @@ const Tables = () => {
   };
 
   return (
-    <div className="mx-auto px-4 py-8">
+    <div className="mx-auto px-4 py-8 relative">
       <div className="bg-white shadow-lg border border-gray-400 p-6 h-full min-h-screen">
         <div className="sticky top-0 left-0 right-0 z-10 bg-white">
           <TableCommandHeader />
@@ -494,6 +495,13 @@ const Tables = () => {
           </div>
         </div>
       )}
+      <div className="fixed bottom-1   md:hidden bg-slate-200 bg-blur-md w-full p-2 py-3 rounded-md  ">
+      
+      <div className="flex justify-center">
+          <PaginationBox/>
+   
+      </div>
+      </div>
     </div>
   );
 };

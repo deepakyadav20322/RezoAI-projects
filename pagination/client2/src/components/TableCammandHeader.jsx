@@ -13,7 +13,9 @@ const TableCammandHeader = () => {
     <FilterRowsONQueries/>
     <ToggleColumn/>
     </div>
+    <div className="hidden md:block">
     <PaginationBox/>
+    </div>
     </div>
     </div>
   )
