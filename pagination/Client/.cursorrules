@@ -1,0 +1,279 @@
+Project Overview--------------------------
+The goal of this project is to build a fully dynamic data table component that renders columns and rows based on the provided data. The table will support advanced features like filtering, sorting, searching, pagination, column management, and resizable columns. The table will display data in a user-friendly manner. The application will be built using React, TypeScript, Tailwind CSS, and Context API for state management. The design will be modular, with reusable components to ensure scalability and maintainability.This projec is strictly typed by using TypeScript.
+
+Example Image:
+![Example Image](./public/image.png)
+
+
+Key Features-------------------
+1. Table Features
+Display Data: Render rows and columns dynamically based on the provided data.
+
+Column Management:
+
+Show/hide columns dynamically.
+
+Reorder columns via drag-and-drop (optional).
+
+Resizable Columns: Allow users to resize column widths by dragging the column borders.
+
+Sorting:
+
+Sort data by column (ascending/descending).
+
+Multi-column sorting (optional).
+
+Filtering:
+
+Add filters for specific columns (e.g., equals, contains).
+
+Clear all filters.
+
+Search:
+
+Global search across all columns.
+
+Pagination:
+
+Navigate between pages.
+
+Set the number of rows per page.
+
+Row Actions:
+
+Edit/delete rows.
+
+Add new rows.
+
+2. UI Features
+Responsive Design: The table should be usable on all screen sizes.
+
+Customizable Styling: Use Tailwind CSS for consistent and customizable styling.
+
+Loading State: Show a loading table when data is being fetched.
+
+Empty State: Display a message when no data is available.
+
+Light Gray Border: Add a light gray border to the table for better visual separation.
+
+Resizable Column Indicators:
+
+Show a double-direction arrow (↔) when hovering over column borders.
+
+Allow users to drag the border to resize the column width.
+
+3. State Management
+Use Context API to manage global state for:
+
+Table data.
+
+Filters, sorting, and pagination.
+
+Column visibility, order, and widths.
+
+4. Modularity
+Break the UI into reusable components:
+
+Table, TableHeader, TableRow, TableCell.
+
+Filters, SearchBar, Pagination.
+
+ColumnManager (for column visibility, reordering, and resizing).
+
+Technical Stack:-----------------
+Frontend: React, TypeScript, Tailwind CSS.
+
+State Management: Context API.
+
+Build Tool: Vite.
+
+<!-- Testing: Jest + React Testing Library (optional). -->
+
+Detailed Requirements
+1. Table Component
+Props:
+
+data: Array of objects (rows).
+
+columns: Array of column configurations (e.g., { key: string, header: string, visible: boolean }).
+
+Features:
+
+Render rows and columns dynamically.
+
+Handle sorting, filtering, and pagination.
+
+Support row actions (edit/delete).
+
+2. Filters Component
+Props:
+
+columns: Array of columns to filter.
+
+Features:
+
+Add filters for specific columns (e.g., equals, contains).
+
+Clear all filters.
+
+3. SearchBar Component
+Props:
+
+onSearch: Function to handle search input.
+
+Features:
+
+Global search across all columns.
+
+4. Pagination Component
+Props:
+
+currentPage: Current page number.
+
+totalPages: Total number of pages.
+
+onPageChange: Function to handle page change.
+
+Features:
+
+Navigate between pages.
+
+Set the number of rows per page.
+
+5. ColumnManager Component
+Props:
+
+columns: Array of columns.
+
+onColumnToggle: Function to handle column visibility.
+
+Features:
+
+Show/hide columns dynamically.
+
+Reorder columns via drag-and-drop (use npm package like: dnd kit).
+
+Context API Design
+1. DataContext
+State:
+
+data: Array of table data.
+
+filters: Object containing filter criteria.
+
+sortConfig: Object containing sorting configuration (e.g., { key: string, direction: 'asc' | 'desc' }).
+
+pagination: Object containing pagination configuration (e.g., { currentPage: number, itemsPerPage: number }).
+
+visibleColumns: Array of visible column keys.
+
+Actions:
+
+setData: Update table data.
+
+addFilter: Add a filter.
+
+clearFilters: Clear all filters.
+
+setSortConfig: Update sorting configuration.
+
+setPagination: Update pagination configuration.
+
+toggleColumnVisibility: Toggle column visibility.
+
+Component Breakdown
+1. Table
+Props:
+
+data: Array of rows.
+
+columns: Array of columns.
+
+Children:
+
+TableHeader, TableRow, TableCell.
+
+2. TableHeader
+Props:
+
+columns: Array of columns.
+
+onSort: Function to handle sorting.
+
+Features:
+
+Render column headers.
+
+Handle sorting.
+
+3. TableRow
+Props:
+
+row: Object representing a row.
+
+columns: Array of columns.
+
+Features:
+
+Render row data.
+
+4. TableCell
+Props:
+
+value: Cell value.
+
+Features:
+
+Render cell data.
+
+5. Filters
+Props:
+
+columns: Array of columns.
+
+onFilter: Function to handle filtering.
+
+Features:
+
+Render filter inputs.
+
+6. SearchBar
+Props:
+
+onSearch: Function to handle search input.
+
+Features:
+
+Render search input.
+
+7. Pagination
+Props:
+
+currentPage: Current page number.
+
+totalPages: Total number of pages.
+
+onPageChange: Function to handle page change.
+
+Features:
+
+Render pagination controls.
+
+8. ColumnManager
+Props:
+
+columns: Array of columns.
+
+onColumnToggle: Function to handle column visibility.
+
+Features:
+
+Render column visibility toggles.
+
+Documentation:---------------------->
+
+Fully functional table component with all features.
+
+Reusable components for filters, search, pagination, and column management.
+
+Documentation for components and context API.
