@@ -309,7 +309,7 @@ const Tables = () => {
       return (
         <button
           onClick={() => openModal(value, null, "Object", columnName)}
-          className="inline-flex items-center px-3 py-1 border border-transparent text-xs font-medium rounded-md text-indigo-700 bg-indigo-100 hover:bg-indigo-200 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500"
+          className="inline-flex items-center px-3 py-1 border border-transparent text-xs font-medium rounded-md text-indigo-700 bg-indigo-100 hover:bg-indigo-200 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500 cursor-pointer"
         >
           View Details
         </button>
@@ -404,7 +404,7 @@ const Tables = () => {
                 <h3 className="text-lg font-medium text-gray-900">Details</h3>
                 <button
                   onClick={closeAllModals}
-                  className="text-red-400 hover:text-red-500"
+                  className="text-red-400 hover:text-red-500 cursor-pointer"
                 >
                   <X className="w-6 h-6" />
                 </button>
@@ -433,7 +433,7 @@ const Tables = () => {
               <div className="mb-4">
                 <button
                   onClick={() => setIsTableView(!isTableView)}
-                  className="inline-flex items-center px-4 py-2 border border-transparent text-sm font-medium rounded-md text-white bg-indigo-600 hover:bg-indigo-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500"
+                  className="inline-flex items-center px-4 py-2 border border-transparent text-sm font-medium rounded-md text-white bg-indigo-600 hover:bg-indigo-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500 cursor-pointer"
                 >
                   {isTableView ? "Switch to JSON View" : "Switch to Table View"}
                 </button>
@@ -478,14 +478,14 @@ const Tables = () => {
 
               <div className="mt-6 flex justify-between">
                 <button
-                  className="inline-flex items-center px-4 py-2 border border-transparent text-sm font-medium rounded-md text-indigo-700 bg-indigo-100 hover:bg-indigo-200 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500"
+                  className="inline-flex items-center px-4 py-2 border border-transparent text-sm font-medium rounded-md text-indigo-700 bg-indigo-100 hover:bg-indigo-200 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500 cursor-pointer"
                   onClick={closeModal}
                 >
                   <ChevronLeft className="w-5 h-5 mr-1" />
                   Back
                 </button>
                 <button
-                  className="inline-flex items-center px-4 py-2 border border-transparent text-sm font-medium rounded-md text-white bg-indigo-600 hover:bg-indigo-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500"
+                  className="inline-flex items-center px-4 py-2 border border-transparent text-sm font-medium rounded-md text-white bg-indigo-600 hover:bg-indigo-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500 cursor-pointer"
                   onClick={closeAllModals}
                 >
                   Close All

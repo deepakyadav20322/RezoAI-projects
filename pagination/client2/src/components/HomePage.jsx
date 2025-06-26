@@ -1,6 +1,7 @@
 
 import React,{ useState, useEffect } from "react"
 import { motion, AnimatePresence } from "framer-motion"
+import { Link  } from "react-router-dom"
 import {
   Hammer,
   Globe,
@@ -23,10 +24,10 @@ import {
   BarChart3,
   FileText,
   Download,
-  Link,
+ LinkIcon,
 } from "lucide-react"
 
-const LandingPage = () => {
+const HomePage = () => {
   const [isVisible, setIsVisible] = useState(false)
   const [isMenuOpen, setIsMenuOpen] = useState(false)
   const [scrolled, setScrolled] = useState(false)
@@ -90,15 +91,27 @@ const LandingPage = () => {
   ]
 
   return (
-    <div className="min-h-screen bg-white">
+    <div className="min-h-screen bg-white text-black">
       {/* Navigation Bar */}
       <motion.nav
         className={`fixed top-0 left-0 right-0 z-50 transition-all duration-300 ${
           scrolled ? "bg-white/95 backdrop-blur-sm border-b border-gray-100" : "bg-transparent"
         }`}
-        initial={{ y: -20, opacity: 0 }}
-        animate={{ y: 0, opacity: 1 }}
-        transition={{ duration: 0.4 }}
+        // initial={{ y: -20, opacity: 0 }}
+        // animate={{ y: 0, opacity: 1 }}
+        // transition={{ duration: 0.4 }}
+         initial="hidden"
+  animate="visible"
+  variants={{
+    hidden: { opacity: 0 },
+    visible: {
+      opacity: 1,
+      transition: {
+        when: "beforeChildren",
+        staggerChildren: 0.1,
+      },
+    },
+  }}
       >
         <div className="max-w-6xl mx-auto px-6">
           <div className="flex justify-between items-center h-16">
@@ -132,13 +145,16 @@ const LandingPage = () => {
 
             {/* CTA Button */}
             <div className="hidden md:flex">
-              <motion.button
+              <motion.button 
+             
                 className="px-6 py-2 bg-black text-white font-medium rounded-md hover:bg-gray-900 transition-colors duration-200"
                 whileHover={{ scale: 1.02 }}
                 whileTap={{ scale: 0.98 }}
                 transition={{ duration: 0.1 }}
               >
+                 <Link to='/table'>
                 Get Started
+              </Link>
               </motion.button>
             </div>
 
@@ -194,23 +210,25 @@ const LandingPage = () => {
               animate={{ opacity: 1, y: 0 }}
               transition={{ duration: 0.5 }}
             >
-              <div className="w-16 h-16 bg-black rounded-2xl flex items-center justify-center">
-                <Hammer className="w-8 h-8 text-white" />
+               <div className="w-14 h-14 text-blue-500 rounded-lg flex items-center justify-center mb-4 bg-blue-200/60 group-hover:text-blue-500 transition-all duration-200">
+                <Hammer className="w-8 h-8" />
               </div>
             </motion.div>
 
             {/* Main Headline */}
            <div className="text-center">
-      <h1 className="mt-6 max-w-4xl text-4xl font-bold tracking-tight text-gray-900 dark:text-white sm:text-5xl lg:text-6xl mx-auto">
-        <div className="flex flex-wrap justify-center items-center gap-x-2 gap-y-1">
+      <h1 className="mt-6 max-w-4xl text-4xl font-bold tracking-tight text-black dark:text-white sm:text-5xl lg:text-6xl mx-auto">
+        <motion.div className="flex flex-wrap justify-center items-center gap-x-2 gap-y-1"     initial={{ opacity: 0, y: 20 }}
+              animate={{ opacity: 1, y: 0 }}
+              transition={{ duration: 0.5 }}>
           <span>Turn Your JSON Instantly into</span>
 
           {/* Animated word block with blur and no overlap */}
           <span
             className="relative inline-block mx-2 text-[#000000] dark:text-[#6b9fff]"
             style={{
-              width: "8ch", // fits longest word comfortably
-              height: "1.2em",
+              width: "9ch", // fits longest word comfortably
+              height: "1.3em",
               textAlign: "center",
               overflow: "hidden",
             }}
@@ -240,7 +258,7 @@ const LandingPage = () => {
           </span>
 
           <span>Tables</span>
-        </div>
+        </motion.div>
       </h1>
     </div>
 
@@ -266,17 +284,23 @@ const LandingPage = () => {
                 whileHover={{ scale: 1.02 }}
                 whileTap={{ scale: 0.98 }}
               >
+                 <Link to='/table'>
+                 <span className="flex gap-4 "></span>
                 Get Started Free
-                <ArrowRight className="w-4 h-4" />
+
+                <ArrowRight className="w-4 h-4 inline pl-1" />
+                </Link>
               </motion.button>
 
               <motion.button
-                className="px-8 py-3 border border-gray-300 text-black font-medium rounded-md hover:border-black transition-colors duration-200 flex items-center gap-2"
+                className="px-8 py-3 border border-blue-300 cursor-pointer text-black font-medium rounded-md hover:border-blue-500 transition-colors duration-200 flex items-center gap-2"
                 whileHover={{ scale: 1.02 }}
                 whileTap={{ scale: 0.98 }}
               >
-                <Play className="w-4 h-4" />
-                Watch Demo
+                <Link to={'/table'}>
+                <Play className="w-4 h-4 inline" />
+                <span className="pl-4">Watch Demo</span>
+                </Link>
               </motion.button>
             </motion.div>
 
@@ -326,7 +350,7 @@ const LandingPage = () => {
   {features.map((feature, index) => (
     <motion.div
       key={index}
-      className="bg-white p-6 rounded-lg border border-gray-100 transition-all duration-100 group cursor-pointer"
+      className="bg-white p-6 rounded-lg border border-gray-100 transition-all duration-100 group cursor-pointer bg-gradient-to-br from-white to-indigo-100"
       initial={{ opacity: 0, y: 20 }}
       whileInView={{ opacity: 1, y: 0 }}
       viewport={{ once: true }}
@@ -412,8 +436,8 @@ const LandingPage = () => {
         <div className="max-w-6xl mx-auto px-6">
           <div className="flex flex-col md:flex-row justify-between items-center">
             <div className="flex items-center mb-4 md:mb-0">
-              <div className="w-8 h-8 bg-black rounded-lg flex items-center justify-center mr-2">
-                <Hammer className="w-4 h-4 text-white" />
+             <div className="w-8 h-8 text-blue-500 rounded-lg flex items-center justify-center  bg-blue-200/60 group-hover:text-blue-500 transition-all duration-200 mr-2">
+                <Hammer className="w-4 h-4" />
               </div>
               <span className="text-lg font-semibold text-black">Feature Enrich</span>
             </div>
@@ -439,9 +463,11 @@ const MinimalDataInputDemo = () => {
     >
        <div className="flex-1 space-y-4">
       <div className="flex items-center gap-3">
-        <div className="w-8 h-8 bg-black rounded-lg flex items-center justify-center">
-          <Upload className="w-4 h-4 text-white" />
-        </div>
+       <div className="w-10 h-10 rounded-xl bg-blue-100 border border-blue-400 shadow-sm flex items-center justify-center hover:bg-blue-200 transition-colors duration-200">
+  <Upload className="w-5 h-5 text-blue-700" />
+</div>
+
+
         <span className="text-xs font-medium text-gray-500 tracking-wider">STEP 01</span>
       </div>
 
@@ -511,7 +537,7 @@ const MinimalDataInputDemo = () => {
           <div className="bg-gray-50 rounded p-3 font-mono text-sm">
             {activeMode === "url" ? (
               <div className="flex items-center gap-2">
-                <Link className="w-4 h-4 text-gray-400" />
+                <LinkIcon className="w-4 h-4 text-gray-400" />
                 <span className="text-gray-600">https://api.example.com/data</span>
               </div>
             ) : (
@@ -541,11 +567,13 @@ const MinimalProcessingDemo = () => {
     >
       <div className="flex-1 space-y-4">
         <div className="flex items-center gap-3">
-          <div className="w-8 h-8 bg-black rounded-lg flex items-center justify-center">
-            <Settings className="w-4 h-4 text-white" />
-          </div>
-          <span className="text-xs font-medium text-gray-500 tracking-wider">STEP 02</span>
-        </div>
+          
+        <div className="w-10 h-10 rounded-xl bg-green-100 border border-green-400 shadow-sm flex items-center justify-center hover:bg-green-200 transition-colors duration-200">
+  <Settings className="w-4 h-4 text-green-400" />
+</div>
+<span className="text-xs font-medium text-gray-500 tracking-wider">STEP 02</span>
+</div>
+
 
         <h3 className="text-2xl font-bold text-black">Smart Processing</h3>
         <p className="text-gray-600 leading-relaxed">
@@ -617,9 +645,11 @@ const MinimalTableDemo = () => {
     >
       <div className="flex-1 space-y-4">
         <div className="flex items-center gap-3">
-          <div className="w-8 h-8 bg-black rounded-lg flex items-center justify-center">
-            <BarChart3 className="w-4 h-4 text-white" />
-          </div>
+        <div className="w-10 h-10 rounded-xl bg-red-100 border border-red-400 shadow-sm flex items-center justify-center hover:bg-red-200 transition-colors duration-200">
+   <BarChart3 className="w-4 h-4 text-red-700" />
+</div>
+
+          
           <span className="text-xs font-medium text-gray-500 tracking-wider">STEP 03</span>
         </div>
 
@@ -690,9 +720,11 @@ const MinimalExportDemo = () => {
     >
       <div className="flex-1 space-y-4">
         <div className="flex items-center gap-3">
-          <div className="w-8 h-8 bg-black rounded-lg flex items-center justify-center">
-            <Download className="w-4 h-4 text-white" />
-          </div>
+         <div className="w-10 h-10 rounded-xl bg-yellow-100 border border-yellow-400 shadow-sm flex items-center justify-center hover:bg-yellow-200 transition-colors duration-200">
+   <Download className="w-4 h-4 text-yellow-700" />
+</div>
+
+           
           <span className="text-xs font-medium text-gray-500 tracking-wider">STEP 04</span>
         </div>
 
@@ -760,4 +792,4 @@ const MinimalExportDemo = () => {
   )
 }
 
-export default LandingPage
+export default HomePage

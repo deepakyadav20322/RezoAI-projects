@@ -1302,9 +1302,9 @@ const TableCommandHeader = () => {
         {/* Left Section - Title and Input Controls */}
         <div className="flex gap-x-2 items-center">
           {/* App Title */}
-          <h2 className="text-xl font-semibold">
+          <h2 className="text-xl font-semibold mr-3">
             <Hammer size={40} className="inline-block p-1 rounded-full border-black border-2 mr-1" />
-            <span className="hidden md:inline-block"> Feature Enrich table</span>
+            <span className="hidden md:inline-block"> Enrich table</span>
           </h2>
 
           <div className="flex items-center gap-x-3">
@@ -1312,7 +1312,7 @@ const TableCommandHeader = () => {
             <div className="flex items-center bg-gray-100 rounded-lg p-1">
               <button
                 onClick={() => toggleDataMode("url")}
-                className={`flex items-center gap-2 px-3 py-1.5 rounded-md text-sm font-medium transition-all ${
+                className={`flex items-center gap-2 px-3 py-1.5 cursor-pointer rounded-md text-sm font-medium transition-all ${
                   dataMode === "url" ? "bg-white text-blue-600 shadow-sm" : "text-gray-600 hover:text-gray-800"
                 }`}
               >
@@ -1321,7 +1321,7 @@ const TableCommandHeader = () => {
               </button>
               <button
                 onClick={() => toggleDataMode("json")}
-                className={`flex items-center gap-2 px-3 py-1.5 rounded-md text-sm font-medium transition-all ${
+                className={`flex items-center gap-2 cursor-pointer px-3 py-1.5 rounded-md text-sm font-medium transition-all ${
                   dataMode === "json" ? "bg-white text-purple-600 shadow-sm" : "text-gray-600 hover:text-gray-800"
                 }`}
               >
