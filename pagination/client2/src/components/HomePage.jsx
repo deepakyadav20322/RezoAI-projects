@@ -24,8 +24,27 @@ import {
   FileText,
   Download,
   LinkIcon,
+    FileJson,
+     FileCode2,
+  FileSpreadsheet,
+  Search,
+
 } from "lucide-react";
+import {
+
+Code2 ,
+
+ 
+  Link2,
+
+  LayoutGrid,
+  ChevronLeft,
+  ChevronRight,
+  
+} from "lucide-react";
+
 import HomePageNavbar from "./HomePageNavbar";
+import MinimalTableDemo from "./MinimalTableDemo";
 
 const HomePage = () => {
   const [isVisible, setIsVisible] = useState(false);
@@ -615,103 +634,279 @@ const MinimalProcessingDemo = () => {
   );
 };
 
-const MinimalTableDemo = () => {
-  return (
-    <motion.div
-      className="flex flex-col lg:flex-row items-center gap-12"
-      initial={{ opacity: 0, y: 30 }}
-      whileInView={{ opacity: 1, y: 0 }}
-      viewport={{ once: true }}
-      transition={{ duration: 0.5 }}
-    >
-      <div className="flex-1 space-y-4">
-        <div className="flex items-center gap-3">
-          <div className="w-10 h-10 rounded-xl bg-red-100 border border-red-400 shadow-sm flex items-center justify-center hover:bg-red-200 transition-colors duration-200">
-            <BarChart3 className="w-4 h-4 text-red-700" />
-          </div>
+// const MinimalTableDemo = () => {
+//   const [viewType, setViewType] = useState("url");
+//   const [page, setPage] = useState(1);
 
-          <span className="text-xs font-medium text-gray-500 tracking-wider">
-            STEP 03
-          </span>
-        </div>
+//   const data = [
+//     {
+//       id: 1,
+//       name: "Leanne Graham",
+//       username: "Bret",
+//       email: "Sincere@april.biz",
+//       phone: "1-770-736-8031 x56442",
+//       address: "View Details",
+//       website: "hildegard.org",
+//       company: "View Details",
+//     },
+//     {
+//       id: 2,
+//       name: "Ervin Howell",
+//       username: "Antonette",
+//       email: "Shanna@melissa.tv",
+//       phone: "010-692-6593 x09125",
+//       address: "View Details",
+//       website: "anastasia.net",
+//       company: "View Details",
+//     },
+//     {
+//       id: 3,
+//       name: "Clementine Bauch",
+//       username: "Samantha",
+//       email: "Nathan@yesenia.net",
+//       phone: "1-463-123-4447",
+//       address: "View Details",
+//       website: "ramiro.info",
+//       company: "View Details",
+//     },
+//   ];
 
-        <h3 className="text-2xl font-bold text-black">Table Management</h3>
-        <p className="text-gray-600 leading-relaxed">
-          Comprehensive filtering, search, and column management for precise
-          data analysis.
-        </p>
+//   return (
+//     <motion.div
+//       className="flex flex-col lg:flex-row items-center gap-12"
+//       initial={{ opacity: 0, y: 30 }}
+//       whileInView={{ opacity: 1, y: 0 }}
+//       viewport={{ once: true }}
+//       transition={{ duration: 0.5 }}
+//     >
+//       {/* LEFT PANEL */}
+//       <div className="flex-1 space-y-4">
+//         <div className="flex items-center gap-3">
+//           <div className="w-10 h-10 rounded-xl bg-red-100 border border-red-400 shadow-sm flex items-center justify-center hover:bg-red-200 transition-colors duration-200">
+//             <BarChart3 className="w-4 h-4 text-red-700" />
+//           </div>
+//           <span className="text-xs font-medium text-gray-500 tracking-wider">
+//             STEP 03
+//           </span>
+//         </div>
 
-        <div className="space-y-2">
-          {[
-            "Advanced filtering",
-            "Column management",
-            "Search functionality",
-            "Real-time updates",
-          ].map((feature, index) => (
-            <div key={index} className="flex items-center gap-2 text-sm">
-              <div className="w-1 h-1 bg-black rounded-full" />
-              <span className="text-gray-700">{feature}</span>
-            </div>
-          ))}
-        </div>
-      </div>
+//         <h3 className="text-2xl font-bold text-black">Table Management</h3>
+//         <p className="text-gray-600 leading-relaxed">
+//           Powerful table with export, filtering, pagination, and real-time control.
+//         </p>
 
-      <div className="flex-1">
-        <motion.div
-          className="bg-white border border-red-300 rounded-lg overflow-hidden"
-          whileHover={{ y: -2 }}
-          transition={{ duration: 0.2 }}
-        >
-          <div className="p-4 border-b border-gray-100">
-            <div className="flex gap-2 mb-3">
-              <button className="px-2 py-1 bg-black text-white text-xs rounded">
-                All
-              </button>
-              <button className="px-2 py-1 bg-gray-100 text-gray-600 text-xs rounded">
-                Active
-              </button>
-            </div>
-            <input
-              type="text"
-              placeholder="Search..."
-              className="w-full px-3 py-1 border border-gray-200 rounded text-sm"
-            />
-          </div>
+//         <div className="space-y-2">
+//           {[
+//             "Export in various formats",
+//             "Toggle column visibility",
+//             "Paginated views",
+//             "Interactive filters",
+//           ].map((feature, index) => (
+//             <div key={index} className="flex items-center gap-2 text-sm">
+//               <div className="w-1.5 h-1.5 bg-black rounded-full" />
+//               <span className="text-gray-700">{feature}</span>
+//             </div>
+//           ))}
+//         </div>
+//       </div>
 
-          <div className="divide-y divide-gray-100">
-            <div className="px-4 py-2 bg-gray-50 text-xs font-medium text-gray-500">
-              ID | Name | Status
-            </div>
-            {[
-              { id: 1, name: "John Doe", status: "Active" },
-              { id: 2, name: "Jane Smith", status: "Active" },
-              { id: 3, name: "Bob Johnson", status: "Inactive" },
-            ].map((item) => (
-              <div
-                key={item.id}
-                className="px-4 py-2 text-sm hover:bg-gray-50 transition-colors"
-              >
-                <span className="text-gray-600">{item.id}</span> |
-                <span className="text-black mx-2">{item.name}</span> |
-                <span
-                  className={
-                    item.status === "Active" ? "text-black" : "text-gray-400"
-                  }
-                >
-                  {item.status}
-                </span>
-              </div>
-            ))}
-          </div>
-        </motion.div>
-      </div>
-    </motion.div>
-  );
-};
+//       {/* RIGHT TABLE PANEL */}
+//       <div className="flex-1 w-full">
+//         <motion.div
+//           className="bg-white border border-red-300 rounded-lg shadow-sm overflow-hidden"
+//           whileHover={{ y: -2 }}
+//           transition={{ duration: 0.2 }}
+//         >
+//           {/* Top Controls */}
+//           <div className="flex items-center justify-between px-4 py-3 border-b border-gray-200">
+//             <div className="flex items-center gap-2">
+//               <button
+//                 onClick={() => setViewType("url")}
+//                 className={`flex items-center gap-1 px-3 py-1 text-xs rounded border ${
+//                   viewType === "url"
+//                     ? "bg-blue-100 border-blue-400 text-blue-700"
+//                     : "bg-white border-gray-200 text-gray-600"
+//                 }`}
+//               >
+//                 <Globe className="w-4 h-4" />
+//                 URL
+//               </button>
+
+//               <button
+//                 onClick={() => setViewType("json")}
+//                 className={`flex items-center gap-1 px-3 py-1 text-xs rounded border ${
+//                   viewType === "json"
+//                     ? "bg-blue-100 border-blue-400 text-blue-700"
+//                     : "bg-white border-gray-200 text-gray-600"
+//                 }`}
+//               >
+//                 <Code2 className="w-4 h-4" />
+//                 JSON
+//               </button>
+
+//               <button className="flex items-center justify-center w-8 h-8 border border-gray-200 rounded hover:bg-gray-50">
+//                 <Link2 className="w-4 h-4 text-gray-500" />
+//               </button>
+//             </div>
+
+//             <div className="flex items-center gap-2">
+//               <motion.button className="flex items-center gap-1 px-3 py-1 text-xs rounded bg-black text-white hover:bg-gray-800 transition">
+//                 <Download className="w-3 h-3" />
+//                 Export
+//               </motion.button>
+
+//               <button className="px-3 py-1 text-xs rounded border border-gray-200 hover:bg-gray-50 flex items-center gap-1">
+//                 <Filter className="w-3 h-3" />
+//                 Filters
+//               </button>
+
+//               <button className="px-3 py-1 text-xs rounded border border-gray-200 hover:bg-gray-50 flex items-center gap-1">
+//                 <LayoutGrid className="w-3 h-3" />
+//                 Columns
+//               </button>
+//             </div>
+//           </div>
+
+//           {/* Search */}
+//           <div className="px-4 py-3 border-b border-gray-200">
+//             <div className="relative">
+//               <Search className="absolute left-3 top-2.5 w-4 h-4 text-gray-400" />
+//               <input
+//                 type="text"
+//                 placeholder="Search..."
+//                 className="w-full pl-10 pr-3 py-2 border border-gray-200 rounded text-sm focus:outline-none focus:ring-1 focus:ring-red-400"
+//               />
+//             </div>
+//           </div>
+
+//           {/* Table */}
+//           <div className="overflow-x-auto">
+//             <table className="min-w-full text-sm">
+//               <thead className="bg-gray-50 text-gray-600 text-xs uppercase text-left">
+//                 <tr>
+//                   {[
+//                     "ID",
+//                     "Name",
+//                     "Username",
+//                     "Email",
+//                     "Address",
+//                     "Phone",
+//                     "Website",
+//                     "Company",
+//                   ].map((col) => (
+//                     <th key={col} className="px-4 py-2 font-medium">
+//                       {col}
+//                     </th>
+//                   ))}
+//                 </tr>
+//               </thead>
+//               <tbody>
+//                 {data.map((row) => (
+//                   <tr
+//                     key={row.id}
+//                     className="hover:bg-gray-50 transition-colors border-t border-gray-100"
+//                   >
+//                     <td className="px-4 py-2">{row.id}</td>
+//                     <td className="px-4 py-2 font-medium text-gray-800">{row.name}</td>
+//                     <td className="px-4 py-2">{row.username}</td>
+//                     <td className="px-4 py-2 text-blue-700 underline cursor-pointer">
+//                       {row.email}
+//                     </td>
+//                     <td className="px-4 py-2">
+//                       <button className="px-2 py-1 text-xs bg-indigo-100 text-indigo-600 rounded">
+//                         {row.address}
+//                       </button>
+//                     </td>
+//                     <td className="px-4 py-2">{row.phone}</td>
+//                     <td className="px-4 py-2">{row.website}</td>
+//                     <td className="px-4 py-2">
+//                       <button className="px-2 py-1 text-xs bg-indigo-100 text-indigo-600 rounded">
+//                         {row.company}
+//                       </button>
+//                     </td>
+//                   </tr>
+//                 ))}
+//               </tbody>
+//             </table>
+//           </div>
+
+//           {/* Pagination */}
+//           <div className="flex items-center justify-between px-4 py-3 border-t border-gray-200 text-sm">
+//             <button
+//               onClick={() => setPage((p) => Math.max(1, p - 1))}
+//               className="px-3 py-1 rounded bg-black text-white hover:bg-gray-900 flex items-center gap-1"
+//             >
+//               <ChevronLeft className="w-3 h-3" />
+//               Previous
+//             </button>
+//             <div className="flex items-center gap-2">
+//               <input
+//                 type="number"
+//                 value={30}
+//                 readOnly
+//                 className="w-12 px-2 py-1 text-center border rounded text-xs"
+//               />
+//               <span className="text-gray-600">Page {page} of 1</span>
+//             </div>
+//             <button
+//               onClick={() => setPage((p) => p + 1)}
+//               className="px-3 py-1 rounded bg-black text-white hover:bg-gray-900 flex items-center gap-1"
+//             >
+//               Next
+//               <ChevronRight className="w-3 h-3" />
+//             </button>
+//           </div>
+//         </motion.div>
+//       </div>
+//     </motion.div>
+//   );
+// };
 
 const MinimalExportDemo = () => {
   const [selectedFormat, setSelectedFormat] = useState("json");
-
+  const [isExporting, setIsExporting] = useState(false)
+    const handleExport = async () => {
+    setIsExporting(true)
+    await new Promise((resolve) => setTimeout(resolve, 2000))
+    setIsExporting(false)
+  }
+const exportOptions = [
+  {
+    id: "csv",
+    name: "CSV",
+    icon: <FileText className="w-4 h-4" />,
+    bg: "bg-green-100",
+    active: "bg-green-600 text-white",
+  },
+  {
+    id: "excel",
+    name: "Excel",
+    icon: <FileSpreadsheet className="w-4 h-4" />,
+    bg: "bg-blue-100",
+    active: "bg-blue-600 text-white",
+  },
+  {
+    id: "json",
+    name: "JSON",
+    icon: <Code className="w-4 h-4" />,
+    bg: "bg-yellow-100",
+    active: "bg-yellow-600 text-white",
+  },
+  {
+    id: "minifiedJson",
+    name: "Minified JSON",
+    icon: <FileJson className="w-4 h-4" />,
+    bg: "bg-purple-100",
+    active: "bg-purple-600 text-white",
+  },
+  {
+    id: "xml",
+    name: "XML",
+    icon: <FileCode2 className="w-4 h-4" />,
+    bg: "bg-pink-100",
+    active: "bg-pink-600 text-white",
+  },
+];
   return (
     <motion.div
       className="flex flex-col lg:flex-row-reverse items-center gap-12"
@@ -720,6 +915,7 @@ const MinimalExportDemo = () => {
       viewport={{ once: true }}
       transition={{ duration: 0.5 }}
     >
+      {/* Left: Info Section */}
       <div className="flex-1 space-y-4">
         <div className="flex items-center gap-3">
           <div className="w-10 h-10 rounded-xl bg-yellow-100 border border-yellow-400 shadow-sm flex items-center justify-center hover:bg-yellow-200 transition-colors duration-200">
@@ -745,16 +941,17 @@ const MinimalExportDemo = () => {
             "Custom transformations",
           ].map((feature, index) => (
             <div key={index} className="flex items-center gap-2 text-sm">
-              <div className="w-1 h-1 bg-black rounded-full" />
+              <div className="w-1.5 h-1.5 bg-black rounded-full" />
               <span className="text-gray-700">{feature}</span>
             </div>
           ))}
         </div>
       </div>
 
-      <div className="flex-1">
+      {/* Right: Export UI */}
+      <div className="flex-1 w-full">
         <motion.div
-          className="bg-white border border-yellow-300 rounded-lg p-6"
+          className="bg-white border border-yellow-300 rounded-lg p-6 shadow-sm"
           whileHover={{ y: -2 }}
           transition={{ duration: 0.2 }}
         >
@@ -764,29 +961,17 @@ const MinimalExportDemo = () => {
           </div>
 
           <div className="grid grid-cols-3 gap-2 mb-4">
-            {[
-              { id: "json", name: "JSON", icon: <Code className="w-4 h-4" /> },
-              {
-                id: "csv",
-                name: "CSV",
-                icon: <FileText className="w-4 h-4" />,
-              },
-              {
-                id: "excel",
-                name: "Excel",
-                icon: <FileText className="w-4 h-4" />,
-              },
-            ].map((format) => (
+            {exportOptions.map((format) => (
               <motion.button
                 key={format.id}
-                className={`p-3 border rounded text-center ${
-                  selectedFormat === format.id
-                    ? "border-black bg-black text-white"
-                    : "border-gray-200 hover:border-gray-300"
-                }`}
                 onClick={() => setSelectedFormat(format.id)}
-                whileHover={{ scale: 1.02 }}
-                whileTap={{ scale: 0.98 }}
+                className={`p-3 rounded text-center transition-all duration-200 cursor-pointer ${
+                  selectedFormat === format.id
+                    ? `${format.active} font-semibold`
+                    : `${format.bg} text-black hover:opacity-90`
+                }`}
+                whileHover={{ scale: 1.03 }}
+                whileTap={{ scale: 0.97 }}
               >
                 <div className="flex justify-center mb-1">{format.icon}</div>
                 <div className="text-xs font-medium">{format.name}</div>
@@ -794,13 +979,48 @@ const MinimalExportDemo = () => {
             ))}
           </div>
 
-          <motion.button
+          {/* <motion.button
             className="w-full py-2 bg-black text-white font-medium rounded hover:bg-gray-900 transition-colors"
             whileHover={{ scale: 1.02 }}
             whileTap={{ scale: 0.98 }}
           >
-            Export as {selectedFormat.toUpperCase()}
-          </motion.button>
+            Export as {selectedFormat.replace(/([A-Z])/g, " $1").toUpperCase()}
+          </motion.button> */}
+
+            {/* Export Button */}
+            <motion.button
+              className="w-full py-3 bg-gradient-to-r from-gray-900 to-gray-800 text-white font-semibold rounded-xl hover:from-gray-800 hover:to-gray-900 transition-all duration-200 shadow-lg hover:shadow-xl disabled:opacity-50 disabled:cursor-not-allowed cursor-pointer"
+              onClick={handleExport}
+              disabled={isExporting}
+              whileHover={{ scale: 1 }}
+              whileTap={{ scale: 0.98 }}
+            >
+              <AnimatePresence mode="wait">
+                {isExporting ? (
+                  <motion.div
+                    key="exporting"
+                    initial={{ opacity: 0 }}
+                    animate={{ opacity: 1 }}
+                    exit={{ opacity: 0 }}
+                    className="flex items-center justify-center gap-2"
+                  >
+                    <div className="w-4 h-4 border-2 border-white border-t-transparent rounded-full animate-spin" />
+                    Exporting...
+                  </motion.div>
+                ) : (
+                  <motion.div
+                    key="export"
+                    initial={{ opacity: 0 }}
+                    animate={{ opacity: 1 }}
+                    exit={{ opacity: 0 }}
+                    className="flex items-center justify-center gap-2"
+                  >
+                    <Download className="w-4 h-4" />
+                    Export as {exportOptions.find((opt) => opt.id === selectedFormat)?.name}
+                  </motion.div>
+                )}
+              </AnimatePresence>
+            </motion.button>
         </motion.div>
       </div>
     </motion.div>
