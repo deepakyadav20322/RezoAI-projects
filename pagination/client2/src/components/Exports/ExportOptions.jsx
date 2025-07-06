@@ -16,7 +16,7 @@ const ExportOption = ({ title, description, icon, onClick }) => {
   return (
     <button
       onClick={onClick}
-      className="w-full p-4 flex items-start gap-4 rounded-lg border border-gray-200 hover:bg-gray-50 transition-colors text-left"
+      className="w-full p-4 flex items-start gap-4 rounded-lg border border-gray-200 hover:bg-gray-50 transition-colors text-left cursor-pointer hover:border-blue-500"
       aria-label={`Export as ${title}`}
     >
       <div className={`p-2 rounded-lg ${

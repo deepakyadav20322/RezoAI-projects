@@ -118,7 +118,7 @@ const ExportModal = ({ isOpen, onClose }) => {
                 <h3 className="text-lg font-semibold">Export Options</h3>
                 <button
                   onClick={onClose}
-                  className="text-gray-400 hover:text-gray-600"
+                  className="text-gray-400 hover:text-red-600 cursor-pointer"
                 >
                   <X size={20} />
                 </button>

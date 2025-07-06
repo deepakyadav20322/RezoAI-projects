@@ -10,7 +10,7 @@ const ExportButton = () => {
     <>
       <button
         onClick={() => setIsOpen(true)}
-        className="flex items-center gap-2 px-4 py-2 bg-green-600 text-white rounded-lg hover:bg-green-700 transition-colors"
+          className="flex items-center justify-center px-4 py-1 text-sm font-medium text-white bg-black border border-gray-700 rounded-md shadow-sm hover:bg-black focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-black text-nowrap gap-x-2 cursor-pointer"
       >
         <Download size={16} />
         Export
