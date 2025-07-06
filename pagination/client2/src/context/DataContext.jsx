@@ -397,8 +397,8 @@ const DataContextProvider = ({ children }) => {
         // NEW: Add mode-related states
         dataMode,
         setDataMode,
-        rawJsonData,
-        setRawJsonData
+        rawJsonData:data,
+        setRawJsonData:setData
       }}
     >
       {children}
