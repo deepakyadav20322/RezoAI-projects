@@ -29,3 +29,12 @@
 .animate-pulse-once {
   animation: pulse-once 1.5s ease-in-out;
 }
+
+/* this is special font famiely and fornt used for hero section */
+.bricolage-grotesque {
+  font-family: 'Bricolage Grotesque', sans-serif;
+  font-optical-sizing: auto;
+  font-weight: 800; /* Choose from 200 to 800 */
+  font-style: normal;
+  font-variation-settings: "wdth" 100; /* Normal width (default) */
+}
