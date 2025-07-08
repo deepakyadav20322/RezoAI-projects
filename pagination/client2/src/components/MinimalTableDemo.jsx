@@ -59,7 +59,7 @@ const MinimalTableDemo = () => {
           </span>
         </div>
 
-        <h3 className="text-2xl font-bold text-black">Table Management</h3>
+        <h3 className="text-2xl font-bold text-black bricolage-grotesque">Table Management</h3>
         <p className="text-gray-600 leading-relaxed">
           Powerful table with export, filtering, pagination, and real-time control.
         </p>

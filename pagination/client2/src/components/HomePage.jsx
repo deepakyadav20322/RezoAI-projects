@@ -160,21 +160,22 @@ const HomePage = () => {
           <div className="text-center">
             {/* Logo */}
             <motion.div
-              className="flex justify-center mb-8"
-              initial={{ opacity: 0, y: 20 }}
-              animate={{ opacity: 1, y: 0 }}
-              transition={{ duration: 0.5 }}
-            >
-              <div className="w-14 h-14 text-blue-500 rounded-lg flex items-center justify-center mb-4 bg-blue-200/60 group-hover:text-blue-500 transition-all duration-200">
-                <Hammer className="w-8 h-8" />
-              </div>
-            </motion.div>
+            initial={{ opacity: 0, y: 20 }}
+            whileInView={{ opacity: 1, y: 0 }}
+            viewport={{ once: true }}
+            transition={{ duration: 0.5 }}
+            className="inline-flex items-center rounded-full border border-[#155dfc] bg-[#155dfc]/10 px-3 py-1 text-sm text-[#155dfc] dark:text-[#6b9fff] backdrop-blur-sm"
+          >
+            <Sparkles className="mr-2 h-3.5 w-3.5 text-[#155dfc] dark:text-[#6b9fff]" />
+            Decode JSON Hierarchy with Ease
+          </motion.div>
+
 
             {/* Main Headline */}
             <div className="text-center">
               <h1 className="mt-6 max-w-4xl text-4xl font-bold tracking-tight text-black dark:text-white sm:text-5xl lg:text-6xl mx-auto">
                 <motion.div
-                  className="flex flex-wrap justify-center items-center gap-x-2 gap-y-1"
+                  className="flex flex-wrap justify-center items-center gap-y-1 font-bold bricolage-grotesque"
                   initial={{ opacity: 0, y: 20 }}
                   animate={{ opacity: 1, y: 0 }}
                   transition={{ duration: 0.5 }}
@@ -183,7 +184,7 @@ const HomePage = () => {
 
                   {/* Animated word block with blur and no overlap */}
                   <span
-                    className="relative inline-block mx-2 text-[#000000] dark:text-[#6b9fff]"
+                    className="relative inline-block text-[#000000] dark:text-[#6b9fff]"
                     style={{
                       width: "9ch", // fits longest word comfortably
                       height: "1.3em",
@@ -195,7 +196,7 @@ const HomePage = () => {
                       (word, i) => (
                         <motion.span
                           key={word}
-                          className="absolute inset-0 flex justify-center items-center"
+                          className="absolute inset-0 flex justify-center items-center text-[#155dfc]"
                           initial={{ opacity: 0, filter: "blur(8px)", y: 10 }}
                           animate={{
                             opacity: [0, 1, 1, 0],
@@ -307,7 +308,7 @@ const HomePage = () => {
             viewport={{ once: true }}
             transition={{ duration: 0.5 }}
           >
-            <h2 className="text-3xl md:text-5xl font-bold text-black mb-4">
+            <h2 className="text-3xl md:text-5xl font-bold text-black mb-4 bricolage-grotesque">
               Powerful Features
             </h2>
             <p className="text-lg text-gray-600 max-w-2xl mx-auto">
@@ -355,7 +356,7 @@ const HomePage = () => {
             viewport={{ once: true }}
             transition={{ duration: 0.5 }}
           >
-            <h2 className="text-3xl md:text-5xl font-bold text-black mb-4">
+            <h2 className="text-3xl md:text-5xl font-bold text-black mb-4 How It Works">
               How It Works
             </h2>
             <p className="text-lg text-gray-600 max-w-2xl mx-auto">
@@ -374,7 +375,7 @@ const HomePage = () => {
       </section>
 
       {/* CTA Section */}
-      <section className="py-20 bg-black">
+      <section className="py-20 bg-slate-100 text-black">
         <div className="max-w-4xl mx-auto px-6 text-center">
           <motion.div
             initial={{ opacity: 0, y: 20 }}
@@ -382,24 +383,24 @@ const HomePage = () => {
             viewport={{ once: true }}
             transition={{ duration: 0.5 }}
           >
-            <h2 className="text-3xl md:text-4xl font-bold text-white mb-4">
+            <h2 className="text-3xl md:text-4xl font-bold text-black bricolage-grotesque mb-4">
               Ready to Transform Your Data?
             </h2>
-            <p className="text-lg text-gray-300 mb-8 max-w-2xl mx-auto">
+            <p className="text-lg text-black mb-8 max-w-2xl mx-auto font-medium font-[bricolage-grotesque]">
               Join thousands of users who have revolutionized their data
               workflow.
             </p>
 
             <div className="flex flex-col sm:flex-row gap-4 justify-center">
               <motion.button
-                className="px-8 py-3 bg-white text-black font-medium rounded-md hover:bg-gray-100 transition-colors duration-200"
+                className="px-8 py-3 bg-gray-200 text-black font-medium rounded-md hover:bg-gray-200 transition-colors duration-200"
                 whileHover={{ scale: 1.02 }}
                 whileTap={{ scale: 0.98 }}
               >
                 Start Free Trial
               </motion.button>
               <motion.button
-                className="px-8 py-3 border border-gray-600 text-white font-medium rounded-md hover:border-white transition-colors duration-200"
+                className="px-8 py-3 border border-gray-600 text-white font-medium rounded-md hover:border-white transition-colors duration-200 bg-black"
                 whileHover={{ scale: 1.02 }}
                 whileTap={{ scale: 0.98 }}
               >
@@ -455,7 +456,7 @@ const MinimalDataInputDemo = () => {
           </span>
         </div>
 
-        <h3 className="text-2xl font-bold text-black">
+        <h3 className="text-2xl font-bold text-black bricolage-grotesque">
           Data Input & Validation
         </h3>
         <p className="text-gray-600 leading-relaxed">
@@ -567,7 +568,7 @@ const MinimalProcessingDemo = () => {
           </span>
         </div>
 
-        <h3 className="text-2xl font-bold text-black">Smart Processing</h3>
+        <h3 className="text-2xl font-bold text-black bricolage-grotesque">Smart Processing</h3>
         <p className="text-gray-600 leading-relaxed">
           Advanced algorithms analyze your data structure and provide
           intelligent optimization suggestions.
@@ -927,7 +928,7 @@ const exportOptions = [
           </span>
         </div>
 
-        <h3 className="text-2xl font-bold text-black">Export & Integration</h3>
+        <h3 className="text-2xl font-bold text-black bricolage-grotesque">Export & Integration</h3>
         <p className="text-gray-600 leading-relaxed">
           Export your processed data in multiple formats or integrate with
           existing workflows.

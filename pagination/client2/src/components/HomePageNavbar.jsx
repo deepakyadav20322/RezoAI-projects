@@ -1,6 +1,6 @@
 import React, { useState } from 'react'
 import {motion} from 'framer-motion'
-import { Hammer, Menu } from 'lucide-react'
+import { Hammer, Menu,X } from 'lucide-react'
 import { Link } from 'react-router-dom'
 import { AnimatePresence } from 'framer-motion'
 const HomePageNavbar = ({scrolled}) => {
