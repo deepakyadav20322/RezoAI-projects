@@ -5,8 +5,9 @@ import Table from './components/Tables'
 import HomePage from './components/HomePage'
 
 
+
 function App() {
-  const [count, setCount] = useState(0)
+
 
   return (
     <>
@@ -15,6 +16,8 @@ function App() {
         <Route to element={ <HomePage/>} />
         <Route path="/" element={<HomePage />} />
         <Route path="/table" element={<Table />} />
+      
+        {/* <Route path="/flow" element={<JsonStructureVisualizer />} /> */}
 
        
       </Routes>
